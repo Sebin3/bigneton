@@ -76,13 +76,14 @@ export default function Ofertas() {
         icon: '👑',
         group: 'ofertas',
         fields: [
-          { key: 'nombre', label: 'Producto', kind: 'text', group: 'general' },
-          { key: 'tipo', label: 'Tipo', kind: 'text', group: 'general' },
-          { key: 'descuento', label: 'Descuento', kind: 'number', group: 'general' },
-          { key: 'precioOferta', label: 'Precio oferta', kind: 'number', group: 'general' },
+          { key: 'nombre', label: 'Producto', kind: 'text' },
+          { key: 'tipo', label: 'Tipo', kind: 'text' },
+          { key: 'descuento', label: 'Descuento', kind: 'number' },
+          { key: 'precioOferta', label: 'Precio oferta', kind: 'number' },
         ],
         rows: [{ nombre: oferta.producto, tipo: oferta.tipo, descuento: String(oferta.descuento), precioOferta: String(oferta.precioOferta) }],
         createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       }
       setTables((prev) => [...prev, converted].sort((a, b) => a.createdAt.localeCompare(b.createdAt)))
       setActiveId(persisted)

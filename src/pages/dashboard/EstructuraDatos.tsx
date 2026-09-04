@@ -213,12 +213,12 @@ export default function EstructuraDatos() {
                           <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
                           <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} interval="preserveStartEnd" tickFormatter={(v: string) => (v.length > 10 ? `${v.slice(0, 10)}…` : v)} />
                           <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} />
-                          <Tooltip
-                            cursor={{ stroke: 'var(--color-border)' }}
-                            contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
-                            labelStyle={{ color: 'var(--color-foreground)' }}
-                            formatter={(v: number) => [`${Number(v).toFixed(1)}%`, 'Completitud']}
-                          />
+                        <Tooltip
+                          cursor={{ stroke: 'var(--color-border)' }}
+                          contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
+                          labelStyle={{ color: 'var(--color-foreground)' }}
+                          formatter={(v: unknown) => [`${Number(v ?? 0).toFixed(1)}%`, 'Completitud']}
+                        />
                           <Line
                             type="monotone"
                             dataKey="completeness"
