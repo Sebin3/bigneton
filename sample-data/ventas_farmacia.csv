@@ -1,0 +1,109 @@
+fecha,producto,categoria,cantidad,precio_unitario,total,cliente,metodo_pago,sucursal
+2026-01-05,Paracetamol 500mg,Medicamentos,12,8.50,102.00,María López,Efectivo,Sucursal Centro
+2026-01-05,Vitamina C 1g,Vitaminas,5,45.00,225.00,Carlos Ruiz,Tarjeta,Sucursal Norte
+2026-01-06,Ibuprofeno 400mg,Medicamentos,8,12.00,96.00,Ana García,Efectivo,Sucursal Centro
+2026-01-06,Protector Solar SPF50,Dermocosméticos,3,89.00,267.00,Lucía Martínez,Tarjeta,Sucursal Sur
+2026-01-07,Omeprazol 20mg,Medicamentos,15,18.50,277.50,José Hernández,Efectivo,Sucursal Norte
+2026-01-07,Jabón Antibacterial,Higiene,10,15.00,150.00,,Efectivo,Sucursal Centro
+2026-01-08,Amoxicilina 500mg,Medicamentos,6,22.00,132.00,Rosa Díaz,Tarjeta,Sucursal Sur
+2026-01-08,Colágeno Hidrolizado,Vitaminas,4,65.00,260.00,Miguel Torres,Efectivo,Sucursal Centro
+2026-01-09,Loratadina 10mg,Medicamentos,20,9.50,190.00,Patricia Vargas,Tarjeta,Sucursal Norte
+2026-01-09,Alcohol Gel 250ml,Higiene,25,18.00,450.00,,Efectivo,Sucursal Centro
+2026-01-10,Losartán 50mg,Medicamentos,10,14.00,140.00,Fernando Ramos,Efectivo,Sucursal Sur
+2026-01-10,Mascarilla KN95,Equipamiento,50,3.50,175.00,María López,Tarjeta,Sucursal Centro
+2026-01-11,Metformina 850mg,Medicamentos,18,11.00,198.00,Carlos Ruiz,Efectivo,Sucursal Norte
+2026-01-11,Termómetro Digital,Equipamiento,2,75.00,150.00,Ana García,Tarjeta,Sucursal Centro
+2026-01-12,Enalapril 10mg,Medicamentos,7,16.50,115.50,,Efectivo,Sucursal Sur
+2026-01-12,Salbutamol Spray,Medicamentos,4,35.00,140.00,Carlos Ruiz,Efectivo,Sucursal Norte
+2026-01-13,Paracetamol 500mg,Medicamentos,22,8.50,187.00,Lucía Martínez,Efectivo,Sucursal Centro
+2026-01-13,Vitamina C 1g,Vitaminas,8,45.00,360.00,,Tarjeta,Sucursal Sur
+2026-01-14,Ibuprofeno 400mg,Medicamentos,14,12.00,168.00,Ana García,Efectivo,Sucursal Centro
+2026-01-14,Protector Solar SPF50,Dermocosméticos,6,89.00,534.00,Patricia Vargas,Tarjeta,Sucursal Norte
+2026-01-15,Omeprazol 20mg,Medicamentos,9,18.50,166.50,,Efectivo,Sucursal Centro
+2026-01-15,Jabón Antibacterial,Higiene,30,15.00,450.00,Fernando Ramos,Efectivo,Sucursal Sur
+2026-01-16,Amoxicilina 500mg,Medicamentos,11,22.00,242.00,Rosa Díaz,Tarjeta,Sucursal Norte
+2026-01-16,Colágeno Hidrolizado,Vitaminas,7,65.00,455.00,Miguel Torres,Efectivo,Sucursal Centro
+2026-01-17,Loratadina 10mg,Medicamentos,16,9.50,152.00,María López,Efectivo,Sucursal Sur
+2026-01-17,Alcohol Gel 250ml,Higiene,40,18.00,720.00,Carlos Ruiz,Tarjeta,Sucursal Centro
+2026-01-18,Losartán 50mg,Medicamentos,5,14.00,70.00,,Efectivo,Sucursal Norte
+2026-01-18,Mascarilla KN95,Equipamiento,100,3.50,350.00,Ana García,Efectivo,Sucursal Centro
+2026-01-19,Metformina 850mg,Medicamentos,25,11.00,275.00,José Hernández,Tarjeta,Sucursal Sur
+2026-01-19,Termómetro Digital,Equipamiento,3,75.00,225.00,Lucía Martínez,Efectivo,Sucursal Norte
+2026-01-20,Enalapril 10mg,Medicamentos,12,16.50,198.00,,Efectivo,Sucursal Centro
+2026-01-20,Salbutamol Spray,Medicamentos,8,35.00,280.00,Patricia Vargas,Tarjeta,Sucursal Sur
+2026-01-21,Paracetamol 500mg,Medicamentos,30,8.50,255.00,Rosa Díaz,Efectivo,Sucursal Norte
+2026-01-21,Vitamina C 1g,Vitaminas,12,45.00,540.00,,Efectivo,Sucursal Centro
+2026-01-22,Ibuprofeno 400mg,Medicamentos,20,12.00,240.00,Fernando Ramos,Tarjeta,Sucursal Sur
+2026-01-22,Protector Solar SPF50,Dermocosméticos,4,89.00,356.00,María López,Efectivo,Sucursal Centro
+2026-01-23,Omeprazol 20mg,Medicamentos,13,18.50,240.50,Carlos Ruiz,Efectivo,Sucursal Norte
+2026-01-23,Jabón Antibacterial,Higiene,18,15.00,270.00,Ana García,Tarjeta,Sucursal Centro
+2026-01-24,Amoxicilina 500mg,Medicamentos,9,22.00,198.00,,Efectivo,Sucursal Sur
+2026-01-24,Colágeno Hidrolizado,Vitaminas,3,65.00,195.00,Patricia Vargas,Efectivo,Sucursal Norte
+2026-01-25,Loratadina 10mg,Medicamentos,28,9.50,266.00,María López,Tarjeta,Sucursal Centro
+2026-01-25,Alcohol Gel 250ml,Higiene,15,18.00,270.00,José Hernández,Efectivo,Sucursal Sur
+2026-01-26,Losartán 50mg,Medicamentos,8,14.00,112.00,,Efectivo,Sucursal Norte
+2026-01-26,Mascarilla KN95,Equipamiento,75,3.50,262.50,Lucía Martínez,Efectivo,Sucursal Centro
+2026-01-27,Metformina 850mg,Medicamentos,14,11.00,154.00,Miguel Torres,Tarjeta,Sucursal Sur
+2026-01-27,Termómetro Digital,Equipamiento,5,75.00,375.00,,Efectivo,Sucursal Centro
+2026-01-28,Enalapril 10mg,Medicamentos,6,16.50,99.00,Rosa Díaz,Efectivo,Sucursal Norte
+2026-01-28,Salbutamol Spray,Medicamentos,10,35.00,350.00,Carlos Ruiz,Tarjeta,Sucursal Centro
+2026-01-29,Paracetamol 500mg,Medicamentos,18,8.50,153.00,Fernando Ramos,Efectivo,Sucursal Sur
+2026-01-29,Vitamina C 1g,Vitaminas,6,45.00,270.00,Ana García,Efectivo,Sucursal Norte
+2026-01-30,Ibuprofeno 400mg,Medicamentos,11,12.00,132.00,,Tарjeta,Sucursal Centro
+2026-01-30,Protector Solar SPF50,Dermocosméticos,2,89.00,178.00,Patricia Vargas,Efectivo,Sucursal Sur
+2026-02-01,Omeprazol 20mg,Medicamentos,20,18.50,370.00,María López,Efectivo,Sucursal Centro
+2026-02-01,Jabón Antibacterial,Higiene,12,15.00,180.00,,Efectivo,Sucursal Norte
+2026-02-02,Amoxicilina 500mg,Medicamentos,16,22.00,352.00,Carlos Ruiz,Tarjeta,Sucursal Sur
+2026-02-02,Colágeno Hidrolizado,Vitaminas,9,65.00,585.00,Lucía Martínez,Efectivo,Sucursal Centro
+2026-02-03,Loratadina 10mg,Medicamentos,24,9.50,228.00,Ana García,Efectivo,Sucursal Norte
+2026-02-03,Alcohol Gel 250ml,Higiene,35,18.00,630.00,,Efectivo,Sucursal Centro
+2026-02-04,Losartán 50mg,Medicamentos,12,14.00,168.00,José Hernández,Tarjeta,Sucursal Sur
+2026-02-04,Mascarilla KN95,Equipamiento,60,3.50,210.00,Rosa Díaz,Efectivo,Sucursal Norte
+2026-02-05,Metformina 850mg,Medicamentos,22,11.00,242.00,,Efectivo,Sucursal Centro
+2026-02-05,Termómetro Digital,Equipamiento,4,75.00,300.00,Miguel Torres,Tarjeta,Sucursal Sur
+2026-02-06,Enalapril 10mg,Medicamentos,9,16.50,148.50,Patricia Vargas,Efectivo,Sucursal Centro
+2026-02-06,Salbutamol Spray,Medicamentos,7,35.00,245.00,,Efectivo,Sucursal Norte
+2026-02-07,Paracetamol 500mg,Medicamentos,35,8.50,297.50,María López,Efectivo,Sucursal Centro
+2026-02-07,Vitamina C 1g,Vitaminas,15,45.00,675.00,Fernando Ramos,Tарjeta,Sucursal Sur
+2026-02-08,Ibuprofeno 400mg,Medicamentos,17,12.00,204.00,Ana García,Efectivo,Sucursal Norte
+2026-02-08,Protector Solar SPF50,Dermocosméticos,7,89.00,623.00,,Efectivo,Sucursal Centro
+2026-02-09,Omeprazol 20mg,Medicamentos,11,18.50,203.50,Carlos Ruiz,Efectivo,Sucursal Sur
+2026-02-09,Jabón Antibacterial,Higiene,22,15.00,330.00,Ana García,Tarjeta,Sucursal Norte
+2026-02-10,Amoxicilina 500mg,Medicamentos,8,22.00,176.00,,Efectivo,Sucursal Centro
+2026-02-10,Colágeno Hidrolizado,Vitaminas,5,65.00,325.00,María López,Efectivo,Sucursal Sur
+2026-02-11,Loratadina 10mg,Medicamentos,30,9.50,285.00,Lucía Martínez,Tарjeta,Sucursal Norte
+2026-02-11,Alcohol Gel 250ml,Higiene,20,18.00,360.00,,Efectivo,Sucursal Centro
+2026-02-12,Losartán 50mg,Medicamentos,15,14.00,210.00,José Hernández,Efectivo,Sucursal Sur
+2026-02-12,Mascarilla KN95,Equipamiento,80,3.50,280.00,Carlos Ruiz,Efectivo,Sucursal Norte
+2026-02-13,Metformina 850mg,Medicamentos,10,11.00,110.00,,Tарjeta,Sucursal Centro
+2026-02-13,Termómetro Digital,Equipamiento,6,75.00,450.00,Rosa Díaz,Efectivo,Sucursal Sur
+2026-02-14,Enalapril 10mg,Medicamentos,4,16.50,66.00,Fernando Ramos,Efectivo,Sucursal Norte
+2026-02-14,Salbutamol Spray,Medicamentos,12,35.00,420.00,,Efectivo,Sucursal Centro
+2026-02-15,Paracetamol 500mg,Medicamentos,25,8.50,212.50,Patricia Vargas,Tарjeta,Sucursal Sur
+2026-02-15,Vitamina C 1g,Vitaminas,10,45.00,450.00,María López,Efectivo,Sucursal Norte
+2026-02-16,Ibuprofeno 400mg,Medicamentos,13,12.00,156.00,,Efectivo,Sucursal Centro
+2026-02-16,Protector Solar SPF50,Dermocosméticos,5,89.00,445.00,Ana García,Efectivo,Sucursal Sur
+2026-02-17,Omeprazol 20mg,Medicamentos,16,18.50,296.00,Carlos Ruiz,Tарjeta,Sucursal Norte
+2026-02-17,Jabón Antibacterial,Higiene,14,15.00,210.00,,Efectivo,Sucursal Centro
+2026-02-18,Amoxicilina 500mg,Medicamentos,20,22.00,440.00,Lucía Martínez,Efectivo,Sucursal Sur
+2026-02-18,Colágeno Hidrolizado,Vitaminas,8,65.00,520.00,Miguel Torres,Efectivo,Sucursal Norte
+2026-02-19,Loratadina 10mg,Medicamentos,18,9.50,171.00,,Tарjeta,Sucursal Centro
+2026-02-19,Alcohol Gel 250ml,Higiene,28,18.00,504.00,Rosa Díaz,Efectivo,Sucursal Sur
+2026-02-20,Losartán 50mg,Medicamentos,10,14.00,140.00,Patricia Vargas,Efectivo,Sucursal Norte
+2026-02-20,Mascarilla KN95,Equipamiento,40,3.50,140.00,,Efectivo,Sucursal Centro
+2026-02-21,Metformina 850mg,Medicamentos,19,11.00,209.00,Fernando Ramos,Tарjeta,Sucursal Sur
+2026-02-21,Termómetro Digital,Equipamiento,1,75.00,75.00,Ana García,Efectivo,Sucursal Norte
+2026-02-22,Enalapril 10mg,Medicamentos,7,16.50,115.50,,Efectivo,Sucursal Centro
+2026-02-22,Salbutamol Spray,Medicamentos,6,35.00,210.00,María López,Efectivo,Sucursal Sur
+2026-02-23,Paracetamol 500mg,Medicamentos,40,8.50,340.00,Carlos Ruiz,Tарjeta,Sucursal Norte
+2026-02-23,Vitamina C 1g,Vitaminas,18,45.00,810.00,,Efectivo,Sucursal Centro
+2026-02-24,Ibuprofeno 400mg,Medicamentos,22,12.00,264.00,Lucía Martínez,Efectivo,Sucursal Sur
+2026-02-24,Protector Solar SPF50,Dermocosméticos,8,89.00,712.00,José Hernández,Efectivo,Sucursal Norte
+2026-02-25,Omeprazol 20mg,Medicamentos,10,18.50,185.00,,Tарjeta,Sucursal Centro
+2026-02-25,Jabón Antibacterial,Higiene,26,15.00,390.00,Ana García,Efectivo,Sucursal Sur
+2026-02-26,Amoxicilina 500mg,Medicamentos,14,22.00,308.00,María López,Efectivo,Sucursal Norte
+2026-02-26,Colágeno Hidrolizado,Vitaminas,6,65.00,390.00,,Efectivo,Sucursal Centro
+2026-02-27,Loratadina 10mg,Medicamentos,32,9.50,304.00,Patricia Vargas,Efectivo,Sucursal Sur
+2026-02-27,Alcohol Gel 250ml,Higiene,22,18.00,396.00,Fernando Ramos,Tарjeta,Sucursal Norte
+2026-02-28,Losartán 50mg,Medicamentos,11,14.00,154.00,,Efectivo,Sucursal Centro
+2026-02-28,Mascarilla KN95,Equipamiento,55,3.50,192.50,Rosa Díaz,Efectivo,Sucursal Sur

@@ -1,0 +1,213 @@
+/* Constructor de tablas: columnas, captura de filas y edición en línea. */
+
+.table-builder {
+  display: grid;
+  gap: 14px;
+}
+
+.tb-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------- columnas -------------------------------- */
+
+.tb-columns {
+  display: grid;
+  gap: 12px;
+  padding: 13px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.tb-columns__chips {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  padding: 5px 6px 5px 12px;
+}
+
+.tb-chip strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tb-chip small {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tb-chip > button {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.tb-chip > button:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.tb-chip--add {
+  padding: 5px 13px;
+  font-weight: 700;
+  color: var(--primary);
+  border-style: dashed;
+  border-color: var(--primary-line);
+  background: var(--primary-soft);
+  cursor: pointer;
+}
+
+.tb-chip--add:hover {
+  border-style: solid;
+  border-color: var(--primary);
+}
+
+.tb-field-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 11px;
+  flex-wrap: wrap;
+  padding-top: 11px;
+  border-top: 1px dashed var(--border-strong);
+}
+
+/* --------------------------- campos de captura --------------------------- */
+
+.tb-row-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  align-items: end;
+  gap: 10px;
+}
+
+.tb-field {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.tb-field--wide {
+  flex: 1 1 220px;
+}
+
+.tb-field > span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tb-field > small {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.tb-field input,
+.tb-field select {
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  min-width: 0;
+  width: 100%;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tb-field select {
+  cursor: pointer;
+}
+
+.tb-field input:focus-visible,
+.tb-field select:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring-primary);
+}
+
+.tb-row-form .btn {
+  justify-content: center;
+  gap: 7px;
+  height: 37px;
+}
+
+/* ------------------------------- la tabla -------------------------------- */
+
+.tb-col-actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.tb-row-actions {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.table-builder tr.is-editing {
+  background: var(--primary-soft);
+}
+
+.table-builder tr.is-editing td {
+  vertical-align: middle;
+}
+
+.table-builder tr.is-editing input,
+.table-builder tr.is-editing select {
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--primary-line);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+  width: 100%;
+  min-width: 96px;
+}
+
+.table-builder tr.is-editing input:focus-visible,
+.table-builder tr.is-editing select:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring-primary);
+}
+
+@media (max-width: 720px) {
+  .tb-field-form,
+  .tb-row-form {
+    grid-template-columns: 1fr;
+  }
+
+  .tb-field--wide {
+    flex-basis: 100%;
+  }
+}

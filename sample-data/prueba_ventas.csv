@@ -1,0 +1,101 @@
+fecha,cliente,producto,cantidad,total
+2025-03-20,Pedro Martínez,Salbutamol,9,38.43
+2025-02-06,Luis Pérez,Vitamina C,6,112.1
+2025-03-23,Lucía Romero,Loratadina,4,47.96
+2025-02-25,Ana García,Amoxicilina,,12.91
+2025-01-02,Elena Vargas,Salbutamol,4,88.24
+2025-02-20,Pedro Martínez,Paracetamol,9,74.27
+2025-02-13,,Losartan,2,122.62
+2025-01-22,,Vitamina C,14,119.66
+2025-03-18,Laura Hernández,Salbutamol,10,148.55
+2025-03-08,Ana García,Aspirina,4,35.13
+2025-03-08,Luis Pérez,Amoxicilina,,5.39
+2025-03-03,Jorge Sánchez,Omeprazol,10,106.93
+2025-03-13,Carlos Ruiz,Vitamina C,19,140.38
+2025-03-21,Carlos Ruiz,Hierro,9,
+2025-02-26,Roberto Díaz,Naproxeno,10,72.96
+2025-02-13,Sofía Díaz,Salbutamol,,10.78
+2025-02-23,Roberto Díaz,Ibuprofeno,8,126.21
+2025-01-01,Lucía Romero,Loratadina,,114.66
+2025-03-28,Jorge Sánchez,Amoxicilina,19,123.07
+2025-03-24,Pedro Martínez,Diclofenaco,4,52.82
+2025-02-28,Elena Vargas,Zinc,,17.77
+2025-01-19,Lucía Romero,Ciprofloxacino,1,83.68
+2025-01-18,Carmen Torres,Vitamina C,16,115.2
+2025-03-20,María López,Salbutamol,16,146.11
+2025-02-14,Miguel Fernández,Ciprofloxacino,1,18.52
+2025-01-19,Jorge Sánchez,Losartan,5,108.91
+2025-02-09,Laura Hernández,Salbutamol,8,
+2025-03-03,Carmen Torres,Amoxicilina,3,119.55
+2025-03-13,Sofía Díaz,Loratadina,10,89.09
+2025-01-07,Jorge Sánchez,Diclofenaco,11,83.8
+2025-02-23,Fernando Morales,Aspirina,8,38.87
+2025-01-08,Pedro Martínez,Aspirina,13,101.23
+2025-01-07,Jorge Sánchez,Amoxicilina,17,
+2025-02-20,Luis Pérez,Salbutamol,1,64.45
+2025-01-07,Luis Pérez,Loratadina,11,
+2025-02-14,Fernando Morales,Ciprofloxacino,13,95.89
+2025-03-18,Fernando Morales,Naproxeno,3,104.24
+2025-01-18,,Ibuprofeno,4,105.63
+2025-01-08,Pedro Martínez,Loratadina,12,26.11
+2025-03-12,Elena Vargas,Amoxicilina,,131.27
+2025-02-14,Jorge Sánchez,Amoxicilina,8,41.83
+2025-01-04,Isabel Ortega,Hierro,10,27.91
+2025-02-09,Roberto Díaz,Metformina,9,48.81
+2025-03-15,Luis Pérez,Naproxeno,12,148.94
+2025-03-08,Laura Hernández,Naproxeno,2,113.05
+2025-02-28,Lucía Romero,Naproxeno,12,32.57
+2025-04-07,Miguel Fernández,Losartan,5,135.99
+2025-02-26,Lucía Romero,Naproxeno,12,18.07
+2025-04-12,Laura Hernández,Amoxicilina,18,58.05
+2025-02-09,Fernando Morales,Hierro,16,47.8
+2025-01-19,Jorge Sánchez,Amoxicilina,8,110.01
+2025-03-28,,Metformina,1,22.92
+2025-04-12,Elena Vargas,Metformina,12,
+2025-03-28,Pedro Martínez,Omeprazol,3,72.32
+2025-03-28,,Paracetamol,2,
+2025-03-27,María López,Diclofenaco,18,
+2025-02-12,,Salbutamol,20,
+2025-02-25,Carlos Ruiz,Omeprazol,,104.42
+2025-03-03,,Loratadina,7,142.61
+2025-01-24,Elena Vargas,Losartan,20,12.33
+2025-01-02,Lucía Romero,Ibuprofeno,18,36.31
+2025-02-14,,Hierro,,
+2025-01-02,Carmen Torres,Amoxicilina,4,
+2025-02-14,Roberto Díaz,Amoxicilina,,112.55
+2025-04-12,Luis Pérez,Vitamina C,12,20.81
+2025-03-22,Ana García,Hierro,17,
+2025-03-15,Fernando Morales,Losartan,4,
+2025-01-22,Pedro Martínez,Ibuprofeno,5,96.8
+2025-02-23,Laura Hernández,Ciprofloxacino,10,
+2025-03-15,Luis Pérez,Losartan,18,36.18
+2025-01-18,Laura Hernández,Salbutamol,13,18.79
+2025-03-28,Sofía Díaz,Amoxicilina,,
+2025-01-18,Miguel Fernández,Vitamina C,5,90.04
+2025-02-14,,Diclofenaco,14,109.55
+2025-03-03,Sofía Díaz,Naproxeno,17,100.23
+2025-01-03,Pedro Martínez,Diclofenaco,4,88.24
+2025-03-28,Lucía Romero,Naproxeno,,139.72
+2025-02-09,Ana García,Aspirina,10,
+2025-01-03,Roberto Díaz,Ibuprofeno,5,
+2025-03-10,Carlos Ruiz,Salbutamol,11,50.19
+2025-03-12,,Paracetamol,5,94.59
+2025-02-09,Jorge Sánchez,Salbutamol,20,44.61
+2025-01-19,Pedro Martínez,Loratadina,19,
+2025-02-03,,Omeprazol,10,116.27
+2025-02-01,,Salbutamol,14,60.13
+2025-03-13,Carmen Torres,Vitamina C,,
+2025-01-01,Jorge Sánchez,Zinc,11,88.14
+2025-02-12,,Paracetamol,11,142.4
+2025-03-09,Isabel Ortega,Metformina,4,90.39
+2025-02-03,Fernando Morales,Diclofenaco,8,29.38
+2025-01-19,Carmen Torres,Hierro,12,143.94
+2025-01-03,,Loratadina,7,27.17
+2025-01-04,María López,Losartan,16,86.74
+2025-03-13,Isabel Ortega,Losartan,20,145.79
+2025-02-20,Luis Pérez,Losartan,10,90.76
+2025-01-04,Sofía Díaz,Paracetamol,2,46.63
+2025-01-24,Roberto Díaz,Metformina,15,143.36
+2025-01-08,Jorge Sánchez,Naproxeno,7,
+2025-01-05,,Hierro,11,17.23
+2025-01-08,Carlos Ruiz,Salbutamol,17,28.02

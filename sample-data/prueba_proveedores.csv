@@ -1,0 +1,101 @@
+nombre,ciudad,telefono,direccion,facturacion
+Proveedor 0,Arequipa,978555983,,8286.84
+Proveedor 1,Cajamarca,,,43214.96
+Proveedor 2,Huancayo,,Av. Central 679,45740.41
+Proveedor 3,Chiclayo,943321320,Av. Comercial 5341,4355.41
+Proveedor 4,Puno,,Av. Central 8550,
+Proveedor 5,Huancayo,951701149,,10433.22
+Proveedor 6,Piura,942559072,Av. Principal 8183,38906.35
+Proveedor 7,Puno,,Av. Cusco 491,17647.97
+Proveedor 8,Lima,910196231,,26725.82
+Proveedor 9,Huancayo,929109045,Av. San Martín 819,44915.73
+Proveedor 10,Ica,921395409,Av. Principal 2287,20020.39
+Proveedor 11,Lima,,Av. Puno 5261,19951.16
+Proveedor 12,Ica,,Av. Lima 2330,29443.05
+Proveedor 13,Trujillo,952148834,Av. Principal 5970,10777.99
+Proveedor 14,Piura,,Av. Comercial 5084,
+Proveedor 15,,943315361,,15292.62
+Proveedor 16,,964276605,Av. Principal 9113,23371.14
+Proveedor 17,,918277097,,20328.8
+Proveedor 18,Arequipa,944738319,Av. San Martín 457,10288.64
+Proveedor 19,,,,28907.27
+Proveedor 20,Chiclayo,961369075,Av. Lima 5899,9763.98
+Proveedor 21,,993104469,Av. Comercial 4935,44197.54
+Proveedor 22,Arequipa,928419506,Av. Comercial 8714,49707.32
+Proveedor 23,Lima,958199211,Av. Central 8040,28499.73
+Proveedor 24,,952799022,,49580.8
+Proveedor 25,Cajamarca,,Av. Comercial 4051,40906.12
+Proveedor 26,Lima,939448924,Av. Central 6463,42041.5
+Proveedor 27,Trujillo,952681823,Av. Comercial 5978,1896.23
+Proveedor 28,Cajamarca,985579195,Av. Central 8164,
+Proveedor 29,Lima,,Av. Cusco 111,30899.67
+Proveedor 30,Ica,,Av. Lima 9711,
+Proveedor 31,Puno,919735027,Av. Comercial 6581,17159.77
+Proveedor 32,Trujillo,968635481,,48452.77
+Proveedor 33,Cajamarca,939962391,Av. Central 2972,36832.75
+Proveedor 34,Trujillo,986884584,,30318.24
+Proveedor 35,Cajamarca,,Av. Cusco 2404,4351.43
+Proveedor 36,,921908603,Av. Comercial 5600,13628.02
+Proveedor 37,Arequipa,924500158,Av. San Martín 6423,21272.83
+Proveedor 38,Chiclayo,960829941,Av. Cusco 1761,39542.13
+Proveedor 39,,919893106,,
+Proveedor 40,,,Av. San Martín 9062,48913.06
+Proveedor 41,Cajamarca,914159837,Av. Comercial 2803,
+Proveedor 42,Ica,935499255,Av. Principal 8949,14435.39
+Proveedor 43,Lima,983774469,Av. Lima 993,21666.49
+Proveedor 44,Cajamarca,,Av. Lima 4881,
+Proveedor 45,Chiclayo,,Av. Comercial 9014,18865.52
+Proveedor 46,Trujillo,945338986,Av. Puno 3806,28430.21
+Proveedor 47,,956142898,Av. Cusco 9762,3518.7
+Proveedor 48,Puno,981875527,Av. Cusco 9483,
+Proveedor 49,Lima,979366056,,37980.84
+Proveedor 50,Trujillo,,Av. Cusco 1383,22051.97
+Proveedor 51,Trujillo,944612921,,28040.03
+Proveedor 52,Piura,911659440,Av. Principal 9726,21269.89
+Proveedor 53,Trujillo,988205594,Av. San Martín 1830,5499.03
+Proveedor 54,Puno,,Av. Comercial 8055,23915.81
+Proveedor 55,,991692326,Av. Cusco 735,44008.4
+Proveedor 56,Lima,946048781,Av. San Martín 5635,15501.22
+Proveedor 57,Huancayo,923182514,Av. Lima 2301,37314.32
+Proveedor 58,Ica,965938288,Av. San Martín 3179,45714.92
+Proveedor 59,Huancayo,960185378,,35623.69
+Proveedor 60,Puno,,Av. Central 3388,12849.77
+Proveedor 61,Ica,946772637,Av. Cusco 8375,46192.14
+Proveedor 62,Cusco,989731181,Av. Central 7875,17813.12
+Proveedor 63,Piura,,,28826.77
+Proveedor 64,Cusco,,,39125.03
+Proveedor 65,Lima,927758896,Av. Principal 238,30613.02
+Proveedor 66,Piura,960529679,Av. Cusco 4228,15456.18
+Proveedor 67,Cajamarca,,Av. Comercial 6231,29891.74
+Proveedor 68,Arequipa,955135227,Av. Comercial 5427,13426.77
+Proveedor 69,,979429969,Av. San Martín 9930,
+Proveedor 70,Lima,,Av. Cusco 6728,2248.29
+Proveedor 71,Cajamarca,956059101,Av. Lima 8859,24048.89
+Proveedor 72,Ica,932815223,Av. Principal 3067,23803.65
+Proveedor 73,Puno,934571018,Av. Puno 1563,11554.73
+Proveedor 74,Chiclayo,954468633,Av. Principal 4917,
+Proveedor 75,Cajamarca,,,34194.54
+Proveedor 76,,,Av. Lima 5714,28685.48
+Proveedor 77,,934207075,Av. Cusco 5549,9252.8
+Proveedor 78,Lima,938102825,Av. Lima 9541,24734.07
+Proveedor 79,,968211760,Av. Cusco 7129,
+Proveedor 80,Cusco,911889398,,33999.03
+Proveedor 81,Cusco,956217844,Av. San Martín 6384,
+Proveedor 82,Lima,949034245,Av. Principal 9870,21966.43
+Proveedor 83,Trujillo,975790669,Av. Lima 2801,45951.17
+Proveedor 84,Cusco,,Av. San Martín 9761,6596.52
+Proveedor 85,Lima,,Av. Principal 896,
+Proveedor 86,,925541047,Av. Cusco 2124,23982.62
+Proveedor 87,Lima,,Av. Principal 4523,35185.95
+Proveedor 88,Arequipa,,Av. San Martín 1841,30645.59
+Proveedor 89,Puno,958039455,,25069.56
+Proveedor 90,Huancayo,,Av. San Martín 1909,
+Proveedor 91,Arequipa,920072800,Av. San Martín 4292,23109.19
+Proveedor 92,Piura,923396125,Av. Central 746,18330.63
+Proveedor 93,Chiclayo,922750478,Av. San Martín 258,33336.07
+Proveedor 94,Ica,,Av. Comercial 1622,
+Proveedor 95,Chiclayo,946484819,Av. Comercial 7935,32617.9
+Proveedor 96,,917871385,,45605.72
+Proveedor 97,Cajamarca,934328380,Av. Central 5975,43197.5
+Proveedor 98,Trujillo,,,13449.84
+Proveedor 99,Puno,987396519,Av. Lima 5642,34567.96

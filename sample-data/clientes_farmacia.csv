@@ -1,0 +1,31 @@
+nombre,apellido,email,telefono,fecha_nacimiento,genero,fecha_registro,direccion,ciudad,total_compras,frecuencia_visitas,cliente_frecuente
+María,López,maria.lopez@email.com,998123456,1985-03-15,Femenino,2024-01-10,Av. Los Olivos 123,Lima,4850,22,true
+Carlos,Ruiz,carlos.ruiz@email.com,997654321,1978-07-22,Masculino,2024-01-15,Jr. Cusco 456,Lima,3200,18,true
+Ana,García,ana.garcia@email.com,996789123,1992-11-08,Femenino,2024-02-01,Av. Javier Prado 789,Lima,5100,25,true
+Lucía,Martínez,lucia.martinez@email.com,995432167,1988-05-30,Femenino,2024-02-10,Ca. Lima 321,Lima,2800,15,false
+José,Hernández,jose.hernandez@email.com,994567890,1975-09-12,Masculino,2024-02-20,Av. Argentina 654,Callao,3600,20,true
+Rosa,Díaz,rosa.diaz@email.com,993210987,1990-01-25,Femenino,2024-03-01, Jr. Junín 987,Lima,1200,8,false
+Miguel,Torres,miguel.torres@email.com,992876543,1982-12-03,Masculino,2024-03-15,Av. Brasil 147,Lima,4200,19,true
+Patricia,Vargas,patricia.vargas@email.com,991543210,1995-06-18,Femenino,2024-04-01,Av. La Marina 258,Callao,3800,21,true
+Fernando,Ramos,fernando.ramos@email.com,990678912,1980-04-07,Masculino,2024-04-10, Jr. Canaval y Moreyra 369,Lima,2100,12,false
+Andrea,Sánchez,andrea.sanchez@email.com,989321654,1993-08-14,Femenino,2024-05-01,Av. Salaverry 741,Lima,5500,28,true
+Pedro,Morales,pedro.morales@email.com,988765432,1970-02-28,Masculino,2024-05-15,Av. Angamos 852,Lima,1800,10,false
+Carmen,Reyes,carmen.reyes@email.com,987456123,1987-10-20,Femenino,2024-06-01,Jr. Caqueta 963,Lima,3400,17,true
+Luis,Gutierrez,luis.gutierrez@email.com,986543210,1979-11-11,Masculino,2024-06-15,Av. San Borja Norte 159,Lima,2700,14,true
+Sandra,Flores,sandra.flores@email.com,985678912,1991-04-25,Femenino,2024-07-01,Av. Aviación 357,Lima,4100,23,true
+Giovanni,Castro,giovanni.castro@email.com,984321654,1984-07-09,Masculino,2024-07-15,Jr. Puno 468,Callao,950,6,false
+Milagros,Huamán,milagros.huaman@email.com,983765432,1996-01-30,Femenino,2024-08-01,Av. Científica 579,Lima,2200,13,false
+Roberto,Chávez,roberto.chavez@email.com,982456123,1973-09-05,Masculino,2024-08-15,Av. Petit Thouars 680,Lima,3900,20,true
+Claudia,Luna,claudia.luna@email.com,981543210,1989-03-17,Femenino,2024-09-01,Jr. Melgar 791,Lima,1600,9,false
+Oscar,Jiménez,oscar.jimenez@email.com,980678912,1981-06-23,Masculino,2024-09-15,Av. Arenales 802,Lima,4700,24,true
+Tatiana,Medina,tatiana.medina@email.com,979321654,1994-12-08,Femenino,2024-10-01,Av. Rivera Navarrete 913,Lima,3100,16,true
+Eduardo,Palacios,eduardo.palacios@email.com,978765432,1976-08-19,Masculino,2024-10-15,Jr. Hualgayoc 124,Lima,800,5,false
+Natalia,Aguilar,natalia.aguilar@email.com,977456123,1997-05-02,Femenino,2024-11-01,Av. La Fontana 235,Lima,2900,15,true
+Ricardo,Pérez,ricardo.perez@email.com,976543210,1983-02-14,Masculino,2024-11-15,Av. Benavides 346,Lima,3500,18,true
+Valeria,Soto,valeria.soto@email.com,975678912,1990-07-28,Femenino,2024-12-01,Jr. Escuela Naval 457,Callao,4400,22,true
+Diego,Mendoza,diego.mendoza@email.com,974321654,1986-10-03,Masculino,2024-12-15,Av. Belaunde Terry 568,Lima,1100,7,false
+Gabriela,Ríos,gabriela.rios@email.com,973765432,1992-09-16,Femenino,2025-01-01,Av. Santa Nemesia 679,Lima,3700,19,true
+Francisco,Ortega,francisco.ortega@email.com,972456123,1977-01-07,Masculino,2025-01-15,Jr. Ucayali 780,Lima,2000,11,false
+Daniela,Guerrero,daniela.guerrero@email.com,971543210,1998-04-12,Femenino,2025-02-01,Av. Angamos 891,Lima,2600,14,true
+Ángel,Vargas,angel.vargas@email.com,970678912,1980-11-27,Masculino,2025-02-15,Av. San Luis 902,Lima,1400,8,false
+Cecilia,Rojas,cecilia.rojas@email.com,969321654,1993-06-05,Femenino,2025-03-01,Jr. Pausas 103,Lima,3300,17,true

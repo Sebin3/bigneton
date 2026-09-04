@@ -1,0 +1,37 @@
+.placeholder {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 200px);
+}
+
+.placeholder__card {
+  text-align: center;
+  background: var(--surface);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 64px);
+  max-width: 520px;
+}
+
+.placeholder__icon {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 22px;
+  background: var(--primary-light);
+  color: var(--primary);
+  margin: 0 auto 24px;
+}
+
+.placeholder__card h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.placeholder__card p {
+  color: var(--text-secondary);
+  font-size: 15.5px;
+  margin-bottom: 28px;
+}

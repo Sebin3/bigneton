@@ -1,0 +1,31 @@
+producto,categoria,proveedor,costo,precio_venta,stock,stock_minimo,codigo,fecha_vencimiento,activo
+Paracetamol 500mg,Medicamentos,Distribuidora Pharma+,4.25,8.50,450,100,PAR-500,2027-06-15,true
+Ibuprofeno 400mg,Medicamentos,Lab. Quimifar,6.00,12.00,320,80,IBU-400,2027-03-20,true
+Omeprazol 20mg,Medicamentos,Distribuidora Pharma+,9.25,18.50,280,60,OME-20,2027-09-10,true
+Amoxicilina 500mg,Medicamentos,Lab. Quimifar,11.00,22.00,150,50,AMO-500,2026-12-01,true
+Loratadina 10mg,Medicamentos,SynPharma SAC,4.75,9.50,500,100,LOR-10,2027-08-25,true
+Losartán 50mg,Medicamentos,Distribuidora Pharma+,7.00,14.00,200,50,LOS-50,2027-11-30,true
+Metformina 850mg,Medicamentos,Lab. Quimifar,5.50,11.00,380,80,MET-850,2027-07-18,true
+Enalapril 10mg,Medicamentos,SynPharma SAC,8.25,16.50,120,40,ENA-10,2026-11-15,true
+Salbutamol Spray,Medicamentos,Lab. Quimifar,17.50,35.00,90,30,SAL-SPR,2027-05-20,true
+Vitamina C 1g,Vitaminas,NutriSalud SAC,22.50,45.00,600,100,VIT-C1,2027-12-31,true
+Colágeno Hidrolizado,Vitaminas,NutriSalud SAC,32.50,65.00,180,40,COL-HID,2027-04-10,true
+Protector Solar SPF50,Dermocosméticos,DermaLab Peru,44.50,89.00,100,25,PROT-50,2027-02-28,true
+Jabón Antibacterial,Higiene,CleanLab SAC,7.50,15.00,400,80,JAB-ANT,2028-01-15,true
+Alcohol Gel 250ml,Higiene,CleanLab SAC,9.00,18.00,700,150,ALC-250,2027-10-20,true
+Termómetro Digital,Equipamiento,MediEquip SAC,37.50,75.00,45,10,TERM-DIG,,
+Mascarilla KN95,Equipamiento,MediEquip SAC,1.75,3.50,2000,500,MAS-KN95,2028-06-30,true
+Paracetamol Jarabe 120ml,Medicamentos,Distribuidora Pharma+,5.50,11.00,250,50,PAR-JAR,2027-01-20,true
+Ibuprofeno Jarabe 100ml,Medicamentos,Lab. Quimifar,6.80,13.50,180,40,IBU-JAR,2027-04-05,true
+Diclofenaco Gel 60g,Medicamentos,SynPharma SAC,8.50,17.00,130,30,DIC-GEL,2027-08-12,true
+Pomada Vitamina A,Dermocosméticos,DermaLab Peru,12.00,24.00,90,20,POM-VITA,2027-07-25,true
+Crema Hidratante 200ml,Dermocosméticos,DermaLab Peru,18.00,36.00,70,15,CRE-HID,2028-03-10,true
+Shampoo Anticaspa 250ml,Higiene,CleanLab SAC,10.00,20.00,160,30,SHA-ANT,2028-02-18,true
+Leche de Magnesia 250ml,Medicamentos,Distribuidora Pharma+,7.50,15.00,100,25,LEM-250,2027-09-30,true
+Suplemento Hierro,Vitaminas,NutriSalud SAC,14.00,28.00,220,40,SUP-HIE,2027-06-20,true
+Multivitamínico,Vitaminas,NutriSalud SAC,20.00,40.00,300,60,MUL-VIT,2027-11-15,true
+Gasas Estériles 10p,Equipamiento,MediEquip SAC,3.00,6.00,500,100,GAS-EST,2029-01-01,true
+Guantes Nitrilo M,Equipamiento,MediEquip SAC,15.00,30.00,800,200,GUA-NIT,,
+Jeringa 5ml,Equipamiento,MediEquip SAC,1.20,2.40,1500,300,JER-5ML,2029-06-30,true
+Vendas Elásticas,Equipamiento,MediEquip SAC,4.50,9.00,350,80,VEN-ELA,2029-12-31,true
+Spray Nasal Salino,Medicamentos,SynPharma SAC,6.00,12.00,140,30,SPR-SAL,2027-10-05,true

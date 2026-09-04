@@ -1,0 +1,14 @@
+proveedor,contacto,email,telefono,ciudad,categoria,productos_suministrados,tiempo_entrega_dias,puntuacion,pago_convenio
+Distribuidora Pharma+,Roberto Méndez,roberto@pharma-plus.com,01-456-7890,Lima,Medicamentos,12,3,4.5,30 días
+Lab. Quimifar,Ana Villanueva,ana.villanueva@quimifar.com,01-789-4561,Lima,Medicamentos,8,5,4.2,45 días
+SynPharma SAC,Felipe Quispe,felipe@synpharma.pe,01-321-6547,Callao,Medicamentos,6,4,4.0,30 días
+NutriSalud SAC,Martín Chávez,martin@nutrisalud.pe,01-654-3218,Lima,Vitaminas y Suplementos,5,2,4.8,15 días
+DermaLab Peru,Claudia Ríos,claudia@dermalab.pe,01-987-6543,Lima,Dermocosméticos,4,3,4.3,30 días
+CleanLab SAC,Diego Flores,diego@cleanlab.pe,01-123-7894,Lima,Higiene,4,2,4.1,20 días
+MediEquip SAC,Patricia Soto,patricia@mediequip.pe,01-456-3210,Lima,Equipamiento,6,7,3.9,60 días
+FarImport International,Hans Müller,hans@farimport.com,+51-1-789-0123,Importado,Medicamentos Importados,3,15,4.6,90 días
+BioNatural Peru,Sandra Huamán,sandra@bionatural.pe,01-321-0987,Lima,Suplementos Naturales,4,3,4.4,25 días
+Logística Pharma Express,Jorge Paredes,jorge@pharma-express.com,01-654-9870,Lima,Logística,0,1,4.7,15 días
+Distribuidora Andina,César Mamani,cesar@andina-dist.com,01-890-4321,Cusco,Medicamentos Regionales,5,6,3.8,45 días
+Insumos Médicos del Perú,Fiorella Ramos,fiorella@insumosmedicos.pe,01-234-5678,Lima,Equipamiento Médico,3,5,4.0,30 días
+Agua Oxigenada SAC,Marco Tacsi,marco@aguaoxigenada.pe,01-567-8902,Arequipa,Primeros Auxilios,2,4,4.2,20 días

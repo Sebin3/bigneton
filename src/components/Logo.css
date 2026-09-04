@@ -1,0 +1,28 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.logo__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--accent-grad);
+  color: #fff;
+  box-shadow: var(--shadow-brand);
+  flex-shrink: 0;
+}
+
+.logo__text b {
+  font-weight: 800;
+}
+
+.logo--light {
+  color: #fff;
+}

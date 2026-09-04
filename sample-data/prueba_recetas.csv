@@ -1,0 +1,101 @@
+paciente,medicamento,dosis,medico,diagnostico,fecha
+Laura Hernández,Omeprazol,4,,Crónico,2025-03-22
+,Hierro,2,Dr. Ruiz,,2025-03-18
+Pedro Martínez,Loratadina,1,Dr. Ruiz,,2025-02-20
+Lucía Romero,Ibuprofeno,4,Dr. García,,2025-02-04
+Ana García,Paracetamol,1,Dr. López,,2025-03-28
+Jorge Sánchez,Diclofenaco,1,Dr. Ruiz,Crónico,2025-04-27
+Elena Vargas,Salbutamol,,,Fiebre,2025-02-01
+Carmen Torres,Aspirina,,Dr. Pérez,,2025-03-22
+Carlos Ruiz,Hierro,4,Dr. Pérez,Dolor,2025-01-08
+Isabel Ortega,Losartan,,Dr. Ruiz,Crónico,2025-01-01
+,Aspirina,1,Dr. Ruiz,Alergia,2025-04-23
+Isabel Ortega,Aspirina,5,,Crónico,2025-02-23
+Carmen Torres,Metformina,5,Dr. Pérez,Fiebre,2025-02-09
+Lucía Romero,Metformina,5,Dr. López,Crónico,2025-04-27
+Miguel Fernández,Losartan,2,Dr. López,Infección,2025-03-28
+María López,Aspirina,3,Dr. López,Crónico,2025-03-28
+Miguel Fernández,Aspirina,5,Dr. Ruiz,,2025-02-11
+,Paracetamol,2,Dr. Pérez,,2025-01-05
+Miguel Fernández,Omeprazol,,,Crónico,2025-04-12
+Elena Vargas,Omeprazol,5,Dr. López,Dolor,2025-02-04
+Laura Hernández,Losartan,3,,,2025-04-23
+Fernando Morales,Zinc,2,Dr. López,Crónico,2025-01-07
+Lucía Romero,Omeprazol,3,,Infección,2025-01-14
+,Loratadina,5,Dr. Pérez,,2025-02-02
+Miguel Fernández,Paracetamol,2,Dr. García,Crónico,2025-02-25
+Jorge Sánchez,Ciprofloxacino,,Dr. López,Infección,2025-03-13
+María López,Ciprofloxacino,,Dr. Pérez,Fiebre,2025-02-01
+Carlos Ruiz,Naproxeno,5,,Fiebre,2025-03-03
+Roberto Díaz,Omeprazol,1,Dr. López,Dolor,2025-03-21
+Miguel Fernández,Hierro,5,Dr. López,Crónico,2025-01-08
+Sofía Díaz,Omeprazol,3,,Crónico,2025-03-25
+Luis Pérez,Losartan,2,Dr. Ruiz,Infección,2025-03-15
+Isabel Ortega,Vitamina C,4,Dr. García,,2025-04-27
+,Ibuprofeno,1,Dr. López,Crónico,2025-02-19
+Laura Hernández,Losartan,4,Dr. García,Dolor,2025-03-03
+Miguel Fernández,Vitamina C,,Dr. García,,2025-03-13
+Sofía Díaz,Loratadina,4,Dr. García,,2025-04-12
+Laura Hernández,Zinc,5,Dr. Pérez,Fiebre,2025-01-04
+Carmen Torres,Amoxicilina,,Dr. Ruiz,Dolor,2025-04-12
+Miguel Fernández,Diclofenaco,2,,Infección,2025-02-15
+Carlos Ruiz,Losartan,5,Dr. Ruiz,Dolor,2025-01-24
+,Aspirina,5,Dr. López,,2025-03-08
+Luis Pérez,Diclofenaco,4,Dr. López,Infección,2025-02-07
+Lucía Romero,Metformina,,Dr. Pérez,Alergia,2025-02-07
+María López,Diclofenaco,4,Dr. López,Alergia,2025-01-20
+Elena Vargas,Zinc,3,Dr. Pérez,Infección,2025-03-25
+Luis Pérez,Hierro,1,Dr. García,Crónico,2025-03-23
+Carlos Ruiz,Ciprofloxacino,3,Dr. Ruiz,Infección,2025-01-23
+Isabel Ortega,Aspirina,,Dr. García,,2025-02-14
+Fernando Morales,Naproxeno,2,Dr. Pérez,Infección,2025-03-12
+Elena Vargas,Amoxicilina,4,Dr. García,,2025-02-19
+Pedro Martínez,Losartan,2,Dr. López,Alergia,2025-01-08
+Elena Vargas,Aspirina,5,Dr. López,Fiebre,2025-03-12
+María López,Metformina,3,Dr. García,Alergia,2025-01-23
+Carmen Torres,Zinc,3,Dr. Ruiz,Dolor,2025-01-01
+Jorge Sánchez,Ibuprofeno,5,,Infección,2025-04-27
+Fernando Morales,Omeprazol,4,Dr. García,Alergia,2025-03-23
+María López,Metformina,1,Dr. Pérez,,2025-03-03
+Ana García,Amoxicilina,1,Dr. Pérez,Alergia,2025-03-12
+,Aspirina,3,Dr. Pérez,Alergia,2025-01-17
+Carlos Ruiz,Naproxeno,2,Dr. Pérez,Crónico,2025-04-12
+Elena Vargas,Salbutamol,5,Dr. Pérez,,2025-01-07
+Carmen Torres,Ciprofloxacino,4,,Crónico,2025-03-27
+Carmen Torres,Ibuprofeno,4,Dr. García,Alergia,2025-02-25
+,Ciprofloxacino,4,Dr. Ruiz,Alergia,2025-04-12
+Isabel Ortega,Aspirina,,Dr. Pérez,Infección,2025-01-22
+Sofía Díaz,Ciprofloxacino,4,Dr. García,Dolor,2025-01-14
+,Losartan,2,Dr. López,,2025-03-28
+Roberto Díaz,Zinc,5,Dr. López,Alergia,2025-02-04
+Carmen Torres,Salbutamol,2,Dr. Ruiz,Fiebre,2025-04-23
+Miguel Fernández,Amoxicilina,1,Dr. Ruiz,,2025-03-03
+Laura Hernández,Vitamina C,5,,Dolor,2025-01-03
+Jorge Sánchez,Metformina,,Dr. Pérez,,2025-02-04
+Isabel Ortega,Naproxeno,5,Dr. García,Infección,2025-02-20
+Ana García,Losartan,5,Dr. García,Crónico,2025-01-18
+Roberto Díaz,Paracetamol,3,Dr. García,Dolor,2025-04-23
+Laura Hernández,Metformina,4,Dr. García,Dolor,2025-03-20
+Sofía Díaz,Ciprofloxacino,5,Dr. López,Infección,2025-02-13
+,Amoxicilina,4,Dr. García,Fiebre,2025-03-03
+Sofía Díaz,Zinc,5,Dr. Ruiz,Crónico,2025-02-08
+Lucía Romero,Vitamina C,4,Dr. García,,2025-03-10
+Lucía Romero,Losartan,2,Dr. Ruiz,Crónico,2025-03-15
+Fernando Morales,Loratadina,1,,Infección,2025-02-05
+Carlos Ruiz,Loratadina,2,Dr. Pérez,,2025-02-14
+Fernando Morales,Omeprazol,2,,,2025-01-22
+Elena Vargas,Salbutamol,,Dr. García,Fiebre,2025-03-04
+Isabel Ortega,Hierro,5,,Crónico,2025-01-23
+Lucía Romero,Paracetamol,5,Dr. Ruiz,Dolor,2025-02-03
+Fernando Morales,Amoxicilina,4,Dr. Ruiz,,2025-01-23
+Laura Hernández,Diclofenaco,3,,,2025-03-24
+Roberto Díaz,Amoxicilina,4,Dr. Ruiz,Fiebre,2025-02-13
+Sofía Díaz,Naproxeno,2,Dr. Pérez,Fiebre,2025-03-28
+Laura Hernández,Omeprazol,2,Dr. Pérez,,2025-03-04
+María López,Zinc,5,Dr. López,Fiebre,2025-03-12
+Ana García,Aspirina,,Dr. López,Dolor,2025-02-14
+Sofía Díaz,Ciprofloxacino,5,Dr. López,,2025-03-04
+Roberto Díaz,Naproxeno,5,Dr. López,Crónico,2025-04-12
+Jorge Sánchez,Metformina,5,Dr. Pérez,Fiebre,2025-03-22
+Roberto Díaz,Hierro,,Dr. López,Fiebre,2025-04-21
+Sofía Díaz,Metformina,3,Dr. López,Crónico,2025-02-04

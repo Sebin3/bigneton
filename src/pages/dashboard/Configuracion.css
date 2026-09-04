@@ -1,0 +1,100 @@
+.config {
+  max-width: 900px;
+}
+
+.config__banner {
+  margin-bottom: 1rem;
+}
+
+.config__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.config__card {
+  padding: 1.25rem;
+}
+
+.config__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.config__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.config__field > span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary, inherit);
+}
+
+.config__field small {
+  font-size: 0.75rem;
+  color: var(--text-muted, #8b8fa3);
+}
+
+.config__field input {
+  width: 100%;
+  padding: 0.62rem 0.75rem;
+  border: 1px solid var(--border, #dcdce4);
+  border-radius: 9px;
+  background: var(--surface-2, #fff);
+  color: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.config__field input:focus {
+  border-color: var(--accent, #6366f1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #6366f1) 18%, transparent);
+}
+
+.config__field input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.config__control {
+  position: relative;
+}
+
+.config__control > .config__icon {
+  position: absolute;
+  left: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted, #8b8fa3);
+  pointer-events: none;
+}
+
+.config__control > input {
+  padding-left: 2.4rem;
+}
+
+.config__msg {
+  margin: 0.25rem 0 0;
+  font-size: 0.86rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+}
+
+.config__msg--ok {
+  background: color-mix(in srgb, var(--success, #16a34a) 12%, transparent);
+  color: var(--success, #16a34a);
+}
+
+.config__msg--err {
+  background: color-mix(in srgb, var(--danger, #dc2626) 12%, transparent);
+  color: var(--danger, #dc2626);
+}

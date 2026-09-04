@@ -1,0 +1,101 @@
+producto,unidades,vencimiento,tipo,proveedor
+Naproxeno,14,2025-11-26,Genérico,Lab A
+Naproxeno,,,Genérico,Lab A
+Salbutamol,8,,Natural,Lab C
+Diclofenaco,97,,Natural,Lab A
+Diclofenaco,30,2025-09-13,Natural,Lab A
+Loratadina,118,2025-09-14,Genérico,Lab B
+Omeprazol,185,2025-01-26,Natural,Lab A
+Ibuprofeno,25,2025-08-20,Genérico,Lab A
+Omeprazol,138,2025-01-05,Patente,Lab C
+Naproxeno,153,2025-06-08,Genérico,Lab C
+Loratadina,,2025-10-24,Natural,Lab C
+Diclofenaco,164,2025-09-11,,Lab B
+Ciprofloxacino,121,2025-04-10,Genérico,Lab A
+Metformina,142,2025-07-08,Patente,Lab B
+Ibuprofeno,137,2025-04-02,Natural,Lab A
+Omeprazol,194,2025-11-18,Genérico,Lab B
+Hierro,3,,Patente,Lab C
+Omeprazol,101,2025-09-11,Patente,Lab C
+Loratadina,92,,Natural,Lab B
+Diclofenaco,80,2025-10-28,,Lab C
+Naproxeno,184,2025-03-07,Patente,Lab A
+Losartan,175,2025-08-24,Patente,Lab C
+Amoxicilina,35,2025-08-06,Natural,Lab A
+Zinc,19,2025-11-02,,Lab C
+Aspirina,,2025-09-15,Natural,Lab C
+Losartan,,2025-09-18,Genérico,Lab B
+Loratadina,4,2025-12-22,,Lab A
+Omeprazol,49,2025-05-27,,Lab B
+Omeprazol,178,2025-11-27,Natural,Lab C
+Ibuprofeno,103,,Genérico,Lab A
+Metformina,165,2025-10-28,Natural,Lab A
+Zinc,177,,Genérico,Lab B
+Naproxeno,,2025-06-01,,Lab C
+Hierro,19,2025-10-08,Patente,Lab C
+Vitamina C,189,,Natural,
+Omeprazol,19,2025-10-20,,Lab B
+Salbutamol,125,2025-09-13,Natural,
+Naproxeno,75,,Genérico,Lab C
+Metformina,81,2025-02-01,Patente,
+Ibuprofeno,47,2025-09-18,,Lab B
+Naproxeno,153,2025-07-01,Patente,Lab C
+Hierro,62,2025-03-22,Genérico,Lab B
+Ibuprofeno,42,2025-07-10,Genérico,Lab A
+Salbutamol,152,,Genérico,Lab B
+Metformina,84,2025-07-27,Natural,Lab A
+Naproxeno,177,2025-06-06,Patente,Lab C
+Naproxeno,200,2025-07-09,Patente,Lab C
+Ciprofloxacino,46,2025-09-01,Patente,Lab A
+Loratadina,,2025-07-22,Natural,Lab B
+Aspirina,108,2025-02-15,Patente,Lab C
+Hierro,177,2025-01-26,Natural,Lab C
+Hierro,21,2025-04-22,Genérico,Lab A
+Losartan,173,2025-06-26,,Lab A
+Ciprofloxacino,142,2025-10-08,Patente,Lab C
+Ciprofloxacino,38,,Patente,
+Aspirina,36,2025-06-15,Natural,
+Aspirina,178,,,Lab B
+Losartan,42,2025-12-08,,Lab C
+Salbutamol,59,2025-11-06,Natural,Lab A
+Hierro,50,,Genérico,Lab C
+Ibuprofeno,147,2025-09-06,Genérico,Lab B
+Salbutamol,135,2025-06-20,Patente,Lab B
+Salbutamol,158,2025-11-23,Natural,
+Ibuprofeno,61,2025-03-12,Natural,
+Metformina,108,2025-11-18,Natural,Lab A
+Salbutamol,73,2025-06-27,Genérico,Lab A
+Omeprazol,98,2025-09-21,Natural,Lab C
+Salbutamol,,2025-01-26,,Lab A
+Amoxicilina,199,2025-12-25,Natural,
+Vitamina C,139,2025-06-18,Genérico,Lab B
+Metformina,26,2025-11-25,Genérico,Lab B
+Ibuprofeno,112,2025-02-25,Genérico,Lab C
+Zinc,181,2025-07-06,Genérico,Lab A
+Ciprofloxacino,71,2025-03-11,Patente,Lab B
+Ciprofloxacino,173,2025-03-25,Genérico,
+Zinc,33,2025-12-11,Natural,Lab A
+Loratadina,160,2025-08-03,Genérico,Lab C
+Hierro,94,2025-08-11,,Lab B
+Aspirina,91,2025-09-13,Patente,Lab B
+Zinc,72,2025-10-05,Patente,Lab C
+Paracetamol,25,,Genérico,Lab A
+Metformina,51,2025-03-21,,Lab B
+Diclofenaco,170,2025-03-02,Patente,Lab A
+Ibuprofeno,,,Natural,Lab C
+Paracetamol,178,2025-02-28,Genérico,Lab A
+Aspirina,26,,Genérico,
+Ciprofloxacino,,2025-11-06,Natural,Lab C
+Metformina,157,2025-04-03,Genérico,Lab C
+Diclofenaco,109,2025-03-08,Genérico,Lab C
+Naproxeno,72,2025-12-01,Natural,Lab A
+Ciprofloxacino,48,,Genérico,Lab A
+Losartan,,2025-01-12,Genérico,Lab C
+Ciprofloxacino,174,,,Lab B
+Hierro,15,2025-07-17,Natural,Lab B
+Metformina,21,2025-09-20,Genérico,Lab C
+Vitamina C,39,2025-07-19,Natural,Lab A
+Metformina,186,2025-04-02,,Lab C
+Loratadina,170,,,Lab A
+Diclofenaco,133,2025-12-09,Genérico,Lab B
+Ibuprofeno,197,2025-06-26,,Lab C

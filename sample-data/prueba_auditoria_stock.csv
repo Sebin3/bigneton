@@ -1,0 +1,101 @@
+producto,stock_fisico,stock_sistema,estado,observaciones
+Metformina,165,51,,Nota 5
+Amoxicilina,164,184,,Nota 2
+Loratadina,16,104,OK,
+Naproxeno,188,30,Exceso,
+Ibuprofeno,197,84,Vencido,Nota 4
+Omeprazol,,54,Vencido,
+Ciprofloxacino,95,28,Vencido,Nota 4
+Hierro,200,92,Exceso,Nota 1
+Hierro,,189,OK,
+Metformina,79,179,OK,Nota 4
+Metformina,2,100,Exceso,
+Zinc,41,161,Vencido,Nota 5
+Zinc,199,120,Exceso,Nota 2
+Aspirina,66,90,Exceso,Nota 1
+Losartan,164,113,,Nota 4
+Diclofenaco,,40,Faltante,Nota 7
+Diclofenaco,115,,Faltante,Nota 6
+Omeprazol,21,46,Vencido,
+Paracetamol,142,160,OK,
+Zinc,,158,,
+Naproxeno,,134,Vencido,
+Aspirina,52,200,Vencido,Nota 7
+Naproxeno,55,72,Faltante,Nota 7
+Paracetamol,74,60,Faltante,
+Salbutamol,34,177,Faltante,Nota 7
+Loratadina,,,Faltante,Nota 6
+Losartan,153,,Vencido,Nota 7
+Amoxicilina,,45,Vencido,
+Diclofenaco,181,36,,Nota 3
+Zinc,71,110,Exceso,Nota 5
+Metformina,42,125,Faltante,
+Amoxicilina,13,9,Faltante,
+Hierro,,91,Vencido,Nota 2
+Zinc,,23,,Nota 3
+Zinc,69,169,OK,
+Hierro,19,127,,Nota 2
+Naproxeno,27,,Vencido,Nota 8
+Loratadina,152,84,Vencido,
+Zinc,12,72,OK,Nota 9
+Metformina,23,45,,
+Vitamina C,103,192,,Nota 8
+Aspirina,79,,OK,
+Salbutamol,99,144,OK,Nota 6
+Metformina,161,10,Vencido,Nota 3
+Ciprofloxacino,161,21,,Nota 8
+Amoxicilina,175,63,Exceso,
+Paracetamol,,108,Vencido,Nota 10
+Diclofenaco,65,196,OK,
+Amoxicilina,,106,Exceso,Nota 8
+Salbutamol,159,87,Faltante,Nota 2
+Naproxeno,66,27,,
+Losartan,122,103,Vencido,Nota 10
+Losartan,176,,,Nota 2
+Aspirina,48,53,Faltante,Nota 7
+Zinc,137,77,Faltante,
+Hierro,39,113,,Nota 8
+Omeprazol,75,,,Nota 7
+Zinc,126,152,,Nota 7
+Naproxeno,185,173,Vencido,Nota 1
+Metformina,147,16,Vencido,Nota 2
+Losartan,88,,Exceso,Nota 8
+Omeprazol,129,175,,Nota 5
+Metformina,106,172,Exceso,Nota 3
+Loratadina,176,170,,Nota 10
+Vitamina C,106,126,Faltante,Nota 1
+Loratadina,91,44,OK,Nota 6
+Naproxeno,,57,Exceso,Nota 1
+Ciprofloxacino,68,176,OK,Nota 8
+Zinc,,27,OK,Nota 1
+Amoxicilina,,52,Faltante,Nota 8
+Salbutamol,187,39,Exceso,Nota 2
+Salbutamol,106,1,Vencido,
+Loratadina,95,106,,Nota 9
+Omeprazol,35,105,Vencido,Nota 9
+Diclofenaco,7,,,Nota 6
+Vitamina C,42,100,Faltante,Nota 1
+Aspirina,169,75,Exceso,Nota 6
+Paracetamol,71,156,Vencido,Nota 4
+Naproxeno,158,178,Vencido,
+Ciprofloxacino,85,184,Faltante,
+Ibuprofeno,130,133,,Nota 9
+Omeprazol,198,108,OK,
+Ciprofloxacino,,193,OK,Nota 10
+Salbutamol,86,190,Faltante,Nota 5
+Zinc,183,35,,Nota 9
+Zinc,199,,Vencido,
+Metformina,33,,Vencido,Nota 9
+Zinc,67,162,Vencido,Nota 8
+Metformina,,32,,Nota 9
+Ibuprofeno,177,,Faltante,Nota 6
+Ibuprofeno,154,,,
+Loratadina,95,,,Nota 10
+Hierro,78,55,,Nota 9
+Zinc,11,146,Vencido,Nota 7
+Aspirina,,35,Vencido,
+Aspirina,,159,Vencido,Nota 7
+Paracetamol,171,188,OK,Nota 1
+Vitamina C,197,143,,Nota 10
+Vitamina C,13,133,Vencido,
+Hierro,136,4,Faltante,Nota 10

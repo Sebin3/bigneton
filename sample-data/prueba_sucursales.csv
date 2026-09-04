@@ -1,0 +1,101 @@
+sucursal,ciudad,empleados,gerente,direccion
+Sucursal 0,Trujillo,8,Gerente A,Av. Comercial 4222
+Sucursal 1,Arequipa,9,,
+Sucursal 2,Chiclayo,19,,
+Sucursal 3,Chiclayo,12,Gerente C,
+Sucursal 4,Trujillo,,Gerente B,Av. Puno 7901
+Sucursal 5,Puno,11,Gerente A,
+Sucursal 6,Cajamarca,17,Gerente C,Av. Cusco 8676
+Sucursal 7,Puno,12,Gerente B,Av. Central 1567
+Sucursal 8,Ica,16,,Av. Principal 2333
+Sucursal 9,Huancayo,,Gerente B,
+Sucursal 10,Chiclayo,12,Gerente A,Av. Lima 6845
+Sucursal 11,Chiclayo,15,Gerente C,Av. Cusco 6299
+Sucursal 12,Arequipa,16,Gerente C,Av. Principal 4554
+Sucursal 13,Puno,11,,Av. Puno 1908
+Sucursal 14,Cajamarca,17,Gerente C,
+Sucursal 15,Puno,3,Gerente A,Av. Lima 7283
+Sucursal 16,Cusco,5,Gerente B,Av. Cusco 5204
+Sucursal 17,Huancayo,14,Gerente A,
+Sucursal 18,Chiclayo,5,,Av. Central 4197
+Sucursal 19,Lima,6,Gerente C,Av. Central 7357
+Sucursal 20,Lima,9,Gerente A,Av. Lima 7846
+Sucursal 21,Piura,13,,
+Sucursal 22,Huancayo,23,Gerente B,Av. Central 3668
+Sucursal 23,Cusco,23,,
+Sucursal 24,Cusco,3,Gerente C,
+Sucursal 25,Arequipa,10,Gerente A,
+Sucursal 26,Trujillo,25,,Av. Lima 5289
+Sucursal 27,Ica,17,Gerente A,Av. Puno 2307
+Sucursal 28,Lima,18,Gerente C,
+Sucursal 29,Trujillo,20,Gerente C,Av. Central 9908
+Sucursal 30,Puno,,Gerente A,Av. Central 4414
+Sucursal 31,Huancayo,3,Gerente C,Av. Lima 406
+Sucursal 32,Ica,22,,
+Sucursal 33,Huancayo,20,Gerente B,
+Sucursal 34,Puno,,,
+Sucursal 35,Cusco,,Gerente C,Av. Comercial 8126
+Sucursal 36,Cajamarca,,Gerente A,Av. San Martín 314
+Sucursal 37,Cusco,23,Gerente A,Av. Comercial 1094
+Sucursal 38,Chiclayo,14,Gerente A,
+Sucursal 39,Arequipa,,Gerente A,Av. San Martín 1758
+Sucursal 40,Puno,15,Gerente C,Av. Principal 3031
+Sucursal 41,Puno,16,Gerente C,Av. Comercial 7615
+Sucursal 42,Chiclayo,6,Gerente A,Av. Principal 5629
+Sucursal 43,Puno,22,Gerente B,Av. Principal 5419
+Sucursal 44,Chiclayo,23,Gerente C,Av. Lima 9326
+Sucursal 45,Chiclayo,20,Gerente B,Av. Cusco 7431
+Sucursal 46,Lima,4,,
+Sucursal 47,Cusco,9,Gerente A,Av. Comercial 4621
+Sucursal 48,Puno,20,,Av. San Martín 7642
+Sucursal 49,Trujillo,11,Gerente C,
+Sucursal 50,Chiclayo,21,,
+Sucursal 51,Cajamarca,6,,Av. Central 9541
+Sucursal 52,Lima,13,Gerente B,Av. Central 2074
+Sucursal 53,Cusco,23,Gerente A,
+Sucursal 54,Puno,4,,
+Sucursal 55,Chiclayo,17,Gerente C,Av. Lima 7176
+Sucursal 56,Chiclayo,,Gerente A,Av. Comercial 907
+Sucursal 57,Piura,5,Gerente B,Av. Lima 2309
+Sucursal 58,Cusco,18,,Av. Principal 8689
+Sucursal 59,Arequipa,11,Gerente B,
+Sucursal 60,Chiclayo,16,Gerente A,Av. Principal 496
+Sucursal 61,Trujillo,14,Gerente B,Av. Cusco 835
+Sucursal 62,Cusco,9,Gerente A,
+Sucursal 63,Lima,10,Gerente A,
+Sucursal 64,Arequipa,12,Gerente A,Av. Comercial 8914
+Sucursal 65,Puno,19,Gerente C,Av. Comercial 2415
+Sucursal 66,Lima,15,Gerente C,
+Sucursal 67,Cusco,25,Gerente A,Av. San Martín 1191
+Sucursal 68,Piura,24,Gerente C,Av. San Martín 412
+Sucursal 69,Chiclayo,10,Gerente C,Av. San Martín 5268
+Sucursal 70,Cajamarca,,Gerente A,Av. Cusco 9286
+Sucursal 71,Lima,4,Gerente C,Av. Cusco 6545
+Sucursal 72,Lima,14,Gerente B,Av. Lima 8312
+Sucursal 73,Lima,23,Gerente B,Av. Central 582
+Sucursal 74,Piura,10,Gerente B,Av. San Martín 6362
+Sucursal 75,Cajamarca,23,Gerente B,Av. Lima 7087
+Sucursal 76,Cajamarca,13,Gerente A,Av. Lima 9619
+Sucursal 77,Cusco,7,Gerente C,Av. Lima 7146
+Sucursal 78,Trujillo,23,Gerente A,Av. Principal 8832
+Sucursal 79,Arequipa,8,Gerente A,Av. Central 5321
+Sucursal 80,Chiclayo,16,Gerente C,
+Sucursal 81,Cusco,,Gerente A,Av. Principal 4472
+Sucursal 82,Cajamarca,10,Gerente A,Av. Puno 1402
+Sucursal 83,Huancayo,7,Gerente C,
+Sucursal 84,Chiclayo,18,,Av. San Martín 6794
+Sucursal 85,Lima,11,Gerente A,
+Sucursal 86,Huancayo,22,Gerente B,Av. Lima 7105
+Sucursal 87,Lima,22,Gerente B,Av. Cusco 9470
+Sucursal 88,Puno,23,Gerente A,Av. Cusco 7585
+Sucursal 89,Lima,10,Gerente B,Av. San Martín 9237
+Sucursal 90,Lima,9,Gerente B,Av. Central 4784
+Sucursal 91,Chiclayo,12,Gerente A,Av. Lima 7695
+Sucursal 92,Huancayo,5,,
+Sucursal 93,Chiclayo,13,Gerente A,Av. Comercial 3408
+Sucursal 94,Arequipa,11,Gerente C,Av. Central 2786
+Sucursal 95,Arequipa,,Gerente B,Av. San Martín 8682
+Sucursal 96,Puno,22,Gerente B,Av. San Martín 2899
+Sucursal 97,Cajamarca,24,Gerente A,Av. Lima 940
+Sucursal 98,Piura,17,,
+Sucursal 99,Piura,3,Gerente B,Av. San Martín 8184

@@ -1,0 +1,303 @@
+.overview {
+  display: grid;
+  gap: 24px;
+  animation: viewIn 0.4s ease both;
+}
+
+@keyframes viewIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overview__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.overview__head h1 {
+  font-size: clamp(22px, 2.4vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.overview__date {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* ---------- rejilla de métricas (4 a 6 tarjetas) ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* ---------- rejilla de paneles de contenido: 12 columnas ---------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.charts-grid > .panel--span-7 {
+  grid-column: span 7;
+}
+
+.charts-grid > .panel--span-5 {
+  grid-column: span 5;
+}
+
+.charts-grid > .panel--span-6 {
+  grid-column: span 6;
+}
+
+.charts-grid > .panel--span-4 {
+  grid-column: span 4;
+}
+
+.charts-grid > .panel--span-8 {
+  grid-column: span 8;
+}
+
+.charts-grid > .panel--span-12 {
+  grid-column: span 12;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .charts-grid > [class*='panel--span'] {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 560px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview__head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ---------- tarjeta de métrica estilo Stripe ---------- */
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px 20px 18px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.kpi__value {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi__hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.kpi__delta {
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.kpi__delta--up {
+  color: var(--success, #2f9e63);
+}
+
+.kpi__delta--down {
+  color: var(--danger);
+}
+
+.kpi__delta--flat {
+  color: var(--text-muted);
+}
+
+/* ---------- leyenda de donut ---------- */
+.donut-legend {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  margin-top: 6px;
+}
+
+.donut-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 0;
+}
+
+.donut-legend__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.donut-legend__name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.donut-legend strong {
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- caption de panel ---------- */
+.panel__caption {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* ---------- lista de datasets ---------- */
+.ds-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.ds-row:hover {
+  background: var(--surface-2);
+}
+
+.ds-row__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.ds-row__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.ds-row__meta strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-row__meta small {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.ds-row__right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ds-row__right small {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.ds-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.ds-more:hover {
+  background: var(--primary-soft);
+}
+
+.panel__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  padding: 8px 2px;
+}
+
+.panel__empty svg {
+  color: var(--text-muted);
+}
+

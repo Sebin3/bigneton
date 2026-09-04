@@ -1,0 +1,416 @@
+/* Ofertas y promociones: plantillas, vigencias, pestañas de tablas y stepper. */
+
+.stats-grid--six {
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+}
+
+.stats-grid--four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ---------------------------- stepper del builder --------------------------- */
+
+.ofr-stepper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 4px;
+}
+
+.ofr-stepper__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+
+.ofr-stepper__step + .ofr-stepper__step::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--border-strong);
+  margin-right: 4px;
+}
+
+.ofr-stepper__step.is-active {
+  color: var(--primary);
+}
+
+.ofr-stepper__num {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-muted);
+  background: var(--surface-2);
+}
+
+.ofr-stepper__step.is-active .ofr-stepper__num {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-deep);
+}
+
+/* --------------------------- preview de columnas ---------------------------- */
+
+.ofr-columns {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+}
+
+.ofr-columns__item {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.6fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.ofr-columns__key {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12.5px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.ofr-columns__label {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.ofr-columns__kind {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+/* ------------------------------ plantillas -------------------------------- */
+
+.tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 11px;
+}
+
+.tpl-card {
+  display: grid;
+  gap: 5px;
+  justify-items: start;
+  text-align: left;
+  padding: 14px 15px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tpl-card:hover {
+  border-color: var(--primary-line);
+  box-shadow: var(--shadow-sm);
+}
+
+.tpl-card.is-active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  box-shadow: var(--ring-primary);
+}
+
+.tpl-card__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: var(--accent-grad);
+}
+
+[data-theme='dark'] .tpl-card__icon {
+  color: var(--bg);
+}
+
+.tpl-card strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tpl-card small {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.tpl-card__meta {
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.tpl-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--border-strong);
+}
+
+.tpl-form input[type='text'] {
+  flex: 1 1 260px;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  padding: 9px 16px;
+  min-width: 0;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tpl-form input[type='text']:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--ring-primary);
+}
+
+/* ------------------------------- vigencias -------------------------------- */
+
+.vigencias {
+  display: grid;
+  gap: 9px;
+}
+
+.vigencias__row {
+  display: grid;
+  grid-template-columns: minmax(160px, 1.1fr) minmax(0, 2fr) 104px 116px;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.vigencias__row:hover {
+  border-color: var(--primary-line);
+  box-shadow: var(--shadow-sm);
+}
+
+.vigencias__info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vigencias__info strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vigencias__info small {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.vigencias__track {
+  position: relative;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+}
+
+.vigencias__bar {
+  position: absolute;
+  top: 3px;
+  height: 10px;
+  min-width: 6px;
+  border-radius: var(--radius-full);
+  background: var(--chart-3);
+}
+
+.vigencias__bar[data-status='activa'] {
+  background: var(--accent-grad);
+}
+
+.vigencias__bar[data-status='programada'] {
+  background: var(--chart-4);
+}
+
+.vigencias__bar[data-status='vencida'] {
+  background: var(--border-strong);
+}
+
+.vigencias__today {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--danger);
+  opacity: 0.75;
+}
+
+.vigencias__amount {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------- estados y celdas ----------------------------- */
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+
+.offer-badge[data-status='activa'] {
+  color: var(--info);
+  background: var(--info-soft);
+  border-color: var(--info-line);
+}
+
+.offer-badge[data-status='programada'] {
+  color: var(--warn);
+  background: var(--warn-soft);
+  border-color: var(--warn-line);
+}
+
+.offer-badge[data-status='vencida'] {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: var(--danger-line);
+}
+
+.cell-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.cell-pos {
+  font-weight: 700;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+.cell-neg {
+  font-weight: 700;
+  color: var(--danger);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------- pestañas de tabla ---------------------------- */
+
+.tabla-tabs {
+  gap: 8px;
+}
+
+.tabla-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  padding: 7px 14px;
+  cursor: pointer;
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.tabla-tab:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.tabla-tab.is-active {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+[data-theme='dark'] .tabla-tab.is-active {
+  color: var(--bg);
+}
+
+.tabla-tab > span {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.tabla-tab.is-active > span {
+  background: rgba(255, 255, 255, 0.22);
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .vigencias__row {
+    grid-template-columns: 1fr 104px 116px;
+    row-gap: 9px;
+  }
+
+  .vigencias__track {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}

@@ -1,0 +1,17 @@
+campana,canal,fecha_inicio,fecha_fin,presupuesto,inversion_real,impresiones,cliques,conversiones,ingreso_generado,estado,segmento
+Semana Salud Cardíaca,Redes Sociales,2026-01-05,2026-01-19,5000,4800,125000,3200,180,12600,finalizada,Adultos Mayores
+Promo Vitaminas Enero,Facebook Ads,2026-01-10,2026-01-31,3500,3200,98000,2800,150,9000,finalizada,General
+Descuento Invierno,Tarjeta de Fidelidad,2026-01-15,2026-02-15,8000,7500,,0,320,19200,finalizada,Frecuentes
+Campaña Derma Beauty,Instagram,2026-02-01,2026-02-28,4000,3800,110000,3500,200,17800,finalizada,Mujeres 25-45
+Medicina Preventiva,Google Ads,2026-02-10,2026-03-10,6000,5500,85000,4100,250,22500,finalizada,General
+Limpieza y Bienestar,WhatsApp,2026-02-15,2026-03-01,2000,1800,35000,1200,90,5400,finalizada,Frecuentes
+Día del Padre Especial,Redes Sociales,2026-03-01,2026-03-15,4500,4200,140000,3800,210,15750,finalizada,General
+Protección Solar Summer,Facebook Ads,2026-03-10,2026-04-10,3000,2800,75000,2100,120,8400,finalizada,Jóvenes
+Bienestar Femenino,Instagram,2026-03-15,2026-04-15,5500,5200,130000,4200,280,25200,finalizada,Mujeres 18-40
+Control Glucosa Campaña,Google Ads,2026-04-01,2026-04-30,7000,6500,95000,4500,300,27000,activa,Adultos Mayores
+Ofertas de Semana Santa,Tarjeta de Fidelidad,2026-04-10,2026-04-25,10000,9500,,0,450,36000,activa,Frecuentes
+Vitaminación Infantil,WhatsApp,2026-04-15,2026-05-15,2500,2200,42000,1500,100,7000,activa,Padres
+Día del Trabajador,Facebook Ads,2026-05-01,2026-05-10,3500,3300,88000,2400,140,9800,programada,General
+Salud Mental Importa,Redes Sociales,2026-05-10,2026-05-31,4000,0,0,0,0,0,programada,Jóvenes
+Mes de las Madres,Instagram,2026-05-01,2026-05-15,6000,0,0,0,0,0,programada,Mujeres 30-60
+Hidratación Total,Promocional Local,2026-05-15,2026-06-15,2000,0,0,0,0,0,programada,General
