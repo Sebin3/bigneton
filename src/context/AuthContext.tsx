@@ -46,6 +46,8 @@ async function enrichWithProfile(user: SessionUser): Promise<SessionUser> {
     const profile = await apiGetProfile()
     return {
       ...user,
+      name: profile.name,
+      avatarUrl: profile.avatarUrl,
       role: profile.role,
       permissions: profile.permissions,
     }

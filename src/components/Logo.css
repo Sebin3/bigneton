@@ -26,3 +26,18 @@
 .logo--light {
   color: #fff;
 }
+
+.logo--compact {
+  justify-content: center;
+  gap: 0;
+}
+
+.logo--compact .logo__text {
+  display: none;
+}
+
+.logo--compact .logo__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+}

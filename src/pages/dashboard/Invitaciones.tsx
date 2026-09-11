@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { CalendarClock, Check, Copy, KeyRound, Loader2, Mail, Plus, RotateCcw, Trash2, UserPlus } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
+import { CalendarClock, Check, ChevronDown, Copy, KeyRound, Loader2, Mail, Plus, RotateCcw, Trash2, UserPlus } from 'lucide-react'
 import {
   apiCreateInvitation,
   apiListInvitations,
@@ -40,6 +40,8 @@ const STATUS_STYLES: Record<string, string> = {
   expired: 'bg-destructive/10 text-destructive',
 }
 
+const HIDDEN_INVITATIONS_KEY = 'crm_hidden_invitations'
+
 export default function Invitaciones() {
   const [invitations, setInvitations] = useState<Invitation[] | null>(null)
   const [email, setEmail] = useState('')
@@ -51,12 +53,30 @@ export default function Invitaciones() {
   const [revoking, setRevoking] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [copied, setCopied] = useState<string | null>(null)
+  const [filter, setFilter] = useState<'active' | 'all'>('active')
+  const [hiddenIds, setHiddenIds] = useState<string[]>(() => {
+    try { return JSON.parse(localStorage.getItem(HIDDEN_INVITATIONS_KEY) ?? '[]') as string[] }
+    catch { return [] }
+  })
+
+  const visibleInvitations = useMemo(() => (invitations ?? []).filter((inv) => {
+    if (hiddenIds.includes(inv.id)) return false
+    return filter === 'all' || invitationStatus(inv) === 'active'
+  }), [filter, hiddenIds, invitations])
+
+  const completedCount = useMemo(() => (invitations ?? []).filter((inv) => invitationStatus(inv) !== 'active' && !hiddenIds.includes(inv.id)).length, [hiddenIds, invitations])
 
   const load = useCallback(async () => {
     try { setInvitations(await apiListInvitations()) } catch { setInvitations([]) }
   }, [])
 
-  useEffect(() => { void load() }, [load])
+  useEffect(() => {
+    let active = true
+    void apiListInvitations()
+      .then((items) => { if (active) setInvitations(items) })
+      .catch(() => { if (active) setInvitations([]) })
+    return () => { active = false }
+  }, [])
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault()
@@ -83,6 +103,13 @@ export default function Invitaciones() {
 
   const handleCopy = async (code: string) => {
     await copyText(code); setCopied(code); setTimeout(() => setCopied(null), 1500)
+  }
+
+  const clearCompleted = () => {
+    const ids = (invitations ?? []).filter((inv) => invitationStatus(inv) !== 'active').map((inv) => inv.id)
+    const next = Array.from(new Set([...hiddenIds, ...ids]))
+    setHiddenIds(next)
+    localStorage.setItem(HIDDEN_INVITATIONS_KEY, JSON.stringify(next))
   }
 
   return (
@@ -149,15 +176,15 @@ export default function Invitaciones() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <Label className="text-xs">Usos permitidos</Label>
-                  <select value={maxUses} onChange={(e) => setMaxUses(Number(e.target.value))} className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1">
+                  <div className="relative"><select value={maxUses} onChange={(e) => setMaxUses(Number(e.target.value))} className="flex h-10 w-full appearance-none rounded-lg border border-input bg-background px-3 pr-9 text-sm shadow-sm transition-colors hover:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20">
                     {[1, 2, 3, 5, 10].map((n) => <option key={n} value={n}>{n === 1 ? '1 uso' : `${n} usos`}</option>)}
-                  </select>
+                  </select><ChevronDown size={15} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" /></div>
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs">Válido por</Label>
-                  <select value={expiresIn} onChange={(e) => setExpiresIn(Number(e.target.value))} className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1">
+                  <div className="relative"><select value={expiresIn} onChange={(e) => setExpiresIn(Number(e.target.value))} className="flex h-10 w-full appearance-none rounded-lg border border-input bg-background px-3 pr-9 text-sm shadow-sm transition-colors hover:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20">
                     {[1, 2, 4, 7, 14].map((n) => <option key={n} value={n}>{n === 1 ? '1 día' : `${n} días`}</option>)}
-                  </select>
+                  </select><ChevronDown size={15} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" /></div>
                 </div>
               </div>
 
@@ -178,7 +205,11 @@ export default function Invitaciones() {
               <CardTitle className="text-base flex items-center gap-2"><KeyRound size={18} /> Invitaciones generadas</CardTitle>
               <p className="text-xs text-muted-foreground">Todas las invitaciones con su estado actual</p>
             </div>
-            <Button variant="ghost" size="sm" onClick={() => void load()}><RotateCcw size={14} /> Refrescar</Button>
+            <div className="flex items-center gap-2">
+              <div className="relative"><select value={filter} onChange={(e) => setFilter(e.target.value as 'active' | 'all')} className="h-9 appearance-none rounded-lg border border-input bg-background pl-3 pr-8 text-xs font-medium"><option value="active">Solo activas</option><option value="all">Todas</option></select><ChevronDown size={13} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" /></div>
+              {completedCount > 0 && <Button variant="outline" size="sm" onClick={clearCompleted}><Trash2 size={14} /> Limpiar finalizadas</Button>}
+              <Button variant="ghost" size="sm" onClick={() => void load()}><RotateCcw size={14} /> Refrescar</Button>
+            </div>
           </CardHeader>
           <CardContent>
             {invitations === null ? (
@@ -189,9 +220,11 @@ export default function Invitaciones() {
                 <p className="text-sm font-medium">Aún no has creado invitaciones</p>
                 <p className="text-xs text-muted-foreground mt-1">Usa el formulario para generar el primer código de acceso.</p>
               </div>
+            ) : visibleInvitations.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center"><Check size={30} className="mb-3 text-green-500" /><p className="text-sm font-medium">No hay invitaciones en esta vista</p><p className="mt-1 text-xs text-muted-foreground">Las invitaciones finalizadas pueden consultarse seleccionando “Todas”.</p></div>
             ) : (
-              <div className="space-y-3">
-                {invitations.map((inv) => {
+              <div className="max-h-[590px] space-y-3 overflow-y-auto pr-2">
+                {visibleInvitations.map((inv) => {
                   const status = invitationStatus(inv)
                   return (
                     <div key={inv.id} className="rounded-lg border p-4 space-y-3">

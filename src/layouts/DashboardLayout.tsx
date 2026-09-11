@@ -4,6 +4,7 @@ import {
   BadgePercent,
   Bell,
   ChartColumn,
+  ChevronDown,
   ChevronLeft,
   Clock,
   Columns3,
@@ -27,6 +28,7 @@ import { useAuth } from '../context/useAuth'
 import Logo from '../components/Logo'
 import ThemeToggle from '../components/ThemeToggle'
 import GlobalSearch from '../components/GlobalSearch'
+import UserAvatar from '../components/UserAvatar'
 import { cn } from '../lib/utils'
 
 interface NavItem {
@@ -77,10 +79,6 @@ const BOTTOM_ITEMS: NavItem[] = [
 ]
 const HELP_ITEM: NavItem = { to: '/dashboard/ayuda', label: 'Ayuda y soporte', icon: LifeBuoy }
 const COLLAPSE_KEY = 'crm_sidebar_collapsed'
-
-function initials(name: string) {
-  return name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join('')
-}
 
 function useClock() {
   const [now, setNow] = useState(() => new Date())
@@ -145,7 +143,7 @@ export default function DashboardLayout() {
   const SidebarContent = () => (
     <>
       <div className={cn('flex items-center gap-2 p-4', collapsed && 'justify-center p-3')}>
-        <Logo to="/dashboard" />
+        <Logo to="/dashboard" compact={collapsed} />
         <button className="lg:hidden ml-auto p-1 rounded-md hover:bg-muted" onClick={() => setMobileOpen(false)}>
           <X size={20} />
         </button>
@@ -171,7 +169,7 @@ export default function DashboardLayout() {
         </div>
       </nav>
 
-      <div className={cn('border-t border-border p-3 space-y-2', collapsed && 'px-2')}>
+      <div className={cn('border-t border-border bg-muted/25 p-3 space-y-2', collapsed && 'px-2')}>
         <button
           className={cn(
             'flex items-center gap-2 w-full rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors',
@@ -183,10 +181,8 @@ export default function DashboardLayout() {
           {!collapsed && <span>Colapsar</span>}
         </button>
 
-        <div className={cn('flex items-center gap-2.5 rounded-lg p-2', collapsed && 'justify-center')}>
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">
-            {initials(user?.name ?? 'U')}
-          </span>
+        <div className={cn('flex items-center gap-3 rounded-xl border border-border bg-card px-3 py-2.5 shadow-sm', collapsed && 'justify-center border-transparent bg-transparent px-0 shadow-none')}>
+          <UserAvatar name={user?.name} src={user?.avatarUrl} className="h-9 w-9 rounded-full shadow-sm" />
           {!collapsed && (
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold truncate">{user?.name}</p>
@@ -194,7 +190,7 @@ export default function DashboardLayout() {
             </div>
           )}
           {!collapsed && (
-            <button className="p-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-destructive transition-colors" onClick={handleLogout} title="Cerrar sesión">
+            <button className="p-2 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={handleLogout} title="Cerrar sesión">
               <LogOut size={16} />
             </button>
           )}
@@ -214,7 +210,7 @@ export default function DashboardLayout() {
         collapsed ? 'w-[72px]' : 'w-[264px]',
         mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
-        <SidebarContent />
+        {SidebarContent()}
       </aside>
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -227,7 +223,7 @@ export default function DashboardLayout() {
             <GlobalSearch />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <div className="hidden md:flex items-center gap-1.5 text-xs text-muted-foreground font-medium tabular-nums">
               <Clock size={14} />
               <span>{time}</span>
@@ -244,27 +240,51 @@ export default function DashboardLayout() {
 
             <div className="relative" ref={userMenuRef}>
               <button
-                className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-muted transition-colors"
+                className={cn(
+                  'flex items-center gap-2.5 rounded-xl border px-2 py-1.5 transition-colors',
+                  userMenuOpen ? 'border-border bg-muted' : 'border-transparent hover:border-border hover:bg-muted'
+                )}
                 onClick={() => setUserMenuOpen((v) => !v)}
+                aria-expanded={userMenuOpen}
+                aria-haspopup="menu"
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">
-                  {initials(user?.name ?? 'U')}
+                <UserAvatar name={user?.name} src={user?.avatarUrl} className="h-8 w-8 rounded-full" />
+                <span className="hidden md:flex max-w-[170px] flex-col items-start leading-tight">
+                  <strong className="w-full truncate text-sm font-semibold">{user?.name}</strong>
+                  <small className="text-[10px] uppercase tracking-wide text-muted-foreground">{user?.role === 'superadmin' ? 'Super Admin' : user?.role === 'admin' ? 'Administrador' : user?.role ?? 'Usuario'}</small>
                 </span>
-                <span className="hidden md:block text-sm font-medium">{user?.name}</span>
+                <ChevronDown size={15} className={cn('hidden text-muted-foreground transition-transform md:block', userMenuOpen && 'rotate-180')} />
               </button>
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-56 rounded-xl border bg-popover p-1.5 shadow-lg z-50">
-                  <div className="px-3 py-2 mb-1">
-                    <p className="text-sm font-semibold">{user?.name}</p>
-                    <p className="text-xs text-muted-foreground">{user?.email}</p>
+                <div className="absolute right-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-2xl border border-border bg-popover shadow-[0_18px_50px_rgba(15,23,42,0.16)]" role="menu">
+                  <div className="bg-primary/[0.06] px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <UserAvatar name={user?.name} src={user?.avatarUrl} className="h-11 w-11 rounded-xl shadow-sm" />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-foreground">{user?.name}</p>
+                        <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="h-px bg-border my-1" />
-                  <button
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors"
-                    onClick={handleLogout}
-                  >
-                    <LogOut size={16} /> Cerrar sesión
-                  </button>
+                  <div className="p-2">
+                    <button
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-foreground transition-colors hover:bg-muted"
+                      onClick={() => { setUserMenuOpen(false); navigate('/dashboard/configuracion') }}
+                      role="menuitem"
+                    >
+                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-muted text-muted-foreground"><Settings size={16} /></span>
+                      <span><span className="block font-medium">Configuración</span><span className="block text-xs text-muted-foreground">Perfil, seguridad y preferencias</span></span>
+                    </button>
+                    <div className="my-2 h-px bg-border" />
+                    <button
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-destructive transition-colors hover:bg-destructive/10"
+                      onClick={handleLogout}
+                      role="menuitem"
+                    >
+                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-destructive/10"><LogOut size={16} /></span>
+                      <span className="font-medium">Cerrar sesión</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

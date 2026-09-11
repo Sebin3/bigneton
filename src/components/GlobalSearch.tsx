@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   ArrowRight,
@@ -41,6 +41,13 @@ export default function GlobalSearch() {
   const inputRef = useRef<HTMLInputElement>(null)
   const boxRef = useRef<HTMLDivElement>(null)
 
+  const openSearch = useCallback(() => {
+    setQuery('')
+    setHighlight(0)
+    setOpen(true)
+    requestAnimationFrame(() => inputRef.current?.focus())
+  }, [])
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return { pages: [], datasets: [] }
@@ -66,24 +73,15 @@ export default function GlobalSearch() {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault()
-        setOpen((v) => !v)
+        if (open) setOpen(false)
+        else openSearch()
       } else if (e.key === 'Escape') {
         setOpen(false)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
-
-  useEffect(() => {
-    if (open) {
-      setQuery('')
-      setHighlight(0)
-      requestAnimationFrame(() => inputRef.current?.focus())
-    }
-  }, [open])
-
-  useEffect(() => setHighlight(0), [query])
+  }, [open, openSearch])
 
   const navigateTo = (to: string) => {
     setOpen(false)
@@ -121,7 +119,7 @@ export default function GlobalSearch() {
         className="topbar__search"
         type="button"
         aria-label="Buscar en el panel"
-        onClick={() => setOpen(true)}
+        onClick={openSearch}
       >
         <Search size={18} className="topbar__search-icon" />
         <span className="topbar__search-ph">Buscar en el panel…</span>
@@ -141,7 +139,7 @@ export default function GlobalSearch() {
               <input
                 ref={inputRef}
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => { setQuery(e.target.value); setHighlight(0) }}
                 onKeyDown={onKeyDown}
                 placeholder="Busca páginas o datasets…"
               />

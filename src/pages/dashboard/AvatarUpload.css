@@ -1,0 +1,57 @@
+.settings-avatar-wrap {
+  position: relative;
+  flex: 0 0 62px;
+}
+
+.settings-avatar-wrap .settings-avatar {
+  flex-basis: auto;
+}
+
+.settings-avatar-action {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--card);
+  border-radius: 9px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 18%);
+}
+
+.settings-avatar-action input,
+.settings-upload-button input {
+  display: none;
+}
+
+.settings-avatar-controls {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.settings-upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--background);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.settings-upload-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 5%, var(--background));
+}

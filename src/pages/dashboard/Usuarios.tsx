@@ -8,11 +8,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { apiRequest } from '../../api/client'
 import { useAuth } from '../../context/useAuth'
 import { Separator } from '../../components/ui/separator'
+import UserAvatar from '../../components/UserAvatar'
 
 interface User {
   id: string
   name: string
   email: string
+  avatarUrl?: string | null
   role: string
   permissions: Record<string, Record<string, boolean>>
 }
@@ -230,9 +232,7 @@ export default function Usuarios() {
                     <TableRow key={u.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                            {u.name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()}
-                          </span>
+                          <UserAvatar name={u.name} src={u.avatarUrl} className="h-8 w-8 rounded-full" />
                           <div>
                             <p className="text-sm font-medium">{u.name}</p>
                             <p className="text-xs text-muted-foreground">{u.email}</p>

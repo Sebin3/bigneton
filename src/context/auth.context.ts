@@ -5,6 +5,7 @@ export type Permissions = Record<string, Record<string, boolean>>
 export interface SessionUser {
   name: string
   email: string
+  avatarUrl?: string | null
   role?: string
   permissions?: Permissions
 }
