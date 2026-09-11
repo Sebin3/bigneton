@@ -38,6 +38,11 @@ const PERMISSION_MODULES: { module: string; label: string; actions: { action: st
     { action: 'view', label: 'Ver estructura' },
     { action: 'edit', label: 'Procesar y limpiar datos' },
   ]},
+  { module: 'solicitudes', label: 'Solicitudes comerciales', actions: [
+    { action: 'view', label: 'Ver solicitudes' },
+    { action: 'reply', label: 'Responder y agregar notas' },
+    { action: 'manage', label: 'Cambiar estado y prioridad' },
+  ]},
 ]
 
 const ROLE_LABELS: Record<string, string> = {

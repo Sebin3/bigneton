@@ -666,6 +666,27 @@
 
 /* ---------- CTA ---------- */
 
+.contact { background: color-mix(in srgb, var(--primary-soft) 45%, var(--bg)); }
+.contact__grid { display: grid; grid-template-columns: .82fr 1.18fr; gap: 64px; align-items: center; }
+.contact__copy h2 { margin-top: 16px; font-size: clamp(28px, 3.5vw, 42px); letter-spacing: -.03em; line-height: 1.12; }
+.contact__copy > p { margin-top: 16px; color: var(--text-secondary); line-height: 1.7; }
+.contact__copy ul { list-style: none; margin-top: 24px; display: grid; gap: 12px; }
+.contact__copy li { display: flex; gap: 10px; align-items: center; color: var(--text-secondary); }
+.contact__copy li svg { color: var(--primary); }
+.contact__form { position: relative; display: grid; gap: 16px; padding: 28px; border: 1px solid var(--border); border-radius: var(--radius-xl); background: var(--surface); box-shadow: var(--shadow-md); }
+.contact__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.contact__form label { display: grid; gap: 7px; font-size: 13px; font-weight: 650; color: var(--text-secondary); }
+.contact__form input, .contact__form select, .contact__form textarea { width: 100%; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--bg); color: var(--text); padding: 11px 12px; font: inherit; outline: none; }
+.contact__form textarea { resize: vertical; min-height: 120px; }
+.contact__form input:focus, .contact__form select:focus, .contact__form textarea:focus { border-color: var(--primary); box-shadow: var(--ring-primary); }
+.contact__form .btn { justify-self: start; display: inline-flex; align-items: center; gap: 8px; }
+.contact__form .btn:disabled { opacity: .65; cursor: wait; }
+.contact__form small { color: var(--text-muted); line-height: 1.5; }
+.contact__error, .contact__success { padding: 11px 13px; border-radius: var(--radius-md); font-size: 13.5px; }
+.contact__error { color: #b42335; background: rgba(211,69,91,.1); }
+.contact__success { color: #237a4b; background: rgba(47,158,99,.12); }
+.contact__honeypot { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
 .cta {
   padding-top: 20px;
 }
@@ -840,6 +861,7 @@
 }
 
 @media (max-width: 900px) {
+  .contact__grid { grid-template-columns: 1fr; gap: 32px; }
   .landing__links,
   .landing__nav-actions {
     display: none;

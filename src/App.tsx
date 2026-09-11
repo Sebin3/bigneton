@@ -22,6 +22,7 @@ const Ayuda = lazy(() => import('./pages/dashboard/Ayuda'))
 const Invitaciones = lazy(() => import('./pages/dashboard/Invitaciones'))
 const Usuarios = lazy(() => import('./pages/dashboard/Usuarios'))
 const Reportes = lazy(() => import('./pages/dashboard/Reportes'))
+const Solicitudes = lazy(() => import('./pages/dashboard/Solicitudes'))
 
 function RouteFallback() {
   return (
@@ -84,6 +85,7 @@ function App() {
                 <Route path="reportes" element={<Reportes />} />
                 <Route path="invitaciones" element={<Invitaciones />} />
                 <Route path="usuarios" element={<Usuarios />} />
+                <Route path="solicitudes" element={<Solicitudes />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

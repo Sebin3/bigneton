@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import Logo from '../components/Logo'
 import ThemeToggle from '../components/ThemeToggle'
+import { apiCreateContactRequest } from '../api/contactRequests'
 import './Landing.css'
 
 const FEATURES = [
@@ -83,8 +84,22 @@ const STEPS = [
 
 export default function Landing() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [contact, setContact] = useState({ name: '', email: '', phone: '', company: '', category: 'demo', preferredChannel: 'email', message: '', website: '' })
+  const [contactState, setContactState] = useState<{ loading: boolean; error: string; ticket: string }>({ loading: false, error: '', ticket: '' })
 
   const closeMenu = () => setMenuOpen(false)
+
+  const submitContact = async (event: FormEvent) => {
+    event.preventDefault()
+    setContactState({ loading: true, error: '', ticket: '' })
+    try {
+      const result = await apiCreateContactRequest(contact)
+      setContactState({ loading: false, error: '', ticket: result.request?.ticketNumber ?? 'recibida' })
+      setContact((prev) => ({ ...prev, name: '', email: '', phone: '', company: '', message: '', website: '' }))
+    } catch (error) {
+      setContactState({ loading: false, error: error instanceof Error ? error.message : 'No pudimos enviar tu solicitud.', ticket: '' })
+    }
+  }
 
   return (
     <div className="landing">
@@ -101,6 +116,7 @@ export default function Landing() {
             <a href="#proceso" onClick={closeMenu}>
               Cómo funciona
             </a>
+            <a href="#contacto" onClick={closeMenu}>Contacto</a>
           </nav>
           <div className="landing__nav-actions">
             <ThemeToggle />
@@ -131,6 +147,7 @@ export default function Landing() {
             <a href="#proceso" onClick={closeMenu}>
               Cómo funciona
             </a>
+            <a href="#contacto" onClick={closeMenu}>Contacto</a>
             <hr />
             <Link to="/login" className="btn btn--primary" onClick={closeMenu}>
               Probar gratis
@@ -358,6 +375,41 @@ export default function Landing() {
           </div>
         </section>
 
+        <section id="contacto" className="contact section">
+          <div className="container contact__grid">
+            <div className="contact__copy">
+              <span className="badge badge--soft">Hablemos</span>
+              <h2>Descubre cómo Big Data puede ayudar a tu empresa</h2>
+              <p>Cuéntanos qué necesitas. Un especialista revisará tu solicitud y responderá directamente a tu correo.</p>
+              <ul>
+                <li><Check size={17} /> Demostración personalizada</li>
+                <li><Check size={17} /> Orientación para tus datos</li>
+                <li><Check size={17} /> Respuesta con seguimiento</li>
+              </ul>
+            </div>
+            <form className="contact__form" onSubmit={submitContact} noValidate>
+              <div className="contact__row">
+                <label>Nombre completo<input required maxLength={120} value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} placeholder="Tu nombre" /></label>
+                <label>Correo<input required type="email" maxLength={254} value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="nombre@empresa.com" /></label>
+              </div>
+              <div className="contact__row">
+                <label>Empresa<input maxLength={120} value={contact.company} onChange={(e) => setContact({ ...contact, company: e.target.value })} placeholder="Nombre de la empresa" /></label>
+                <label>Teléfono o WhatsApp<input maxLength={40} value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} placeholder="+51 999 999 999" /></label>
+              </div>
+              <div className="contact__row">
+                <label>¿En qué podemos ayudarte?<select value={contact.category} onChange={(e) => setContact({ ...contact, category: e.target.value })}><option value="demo">Solicitar demostración</option><option value="cotizacion">Solicitar cotización</option><option value="informacion">Información comercial</option><option value="soporte">Consulta o soporte</option><option value="otro">Otro</option></select></label>
+                <label>Prefiero que me contacten por<select value={contact.preferredChannel} onChange={(e) => setContact({ ...contact, preferredChannel: e.target.value })}><option value="email">Correo</option><option value="phone">Teléfono</option><option value="whatsapp">WhatsApp</option></select></label>
+              </div>
+              <label>Mensaje<textarea required maxLength={5000} rows={5} value={contact.message} onChange={(e) => setContact({ ...contact, message: e.target.value })} placeholder="Cuéntanos sobre tu empresa y qué deseas resolver..." /></label>
+              <label className="contact__honeypot" aria-hidden="true">Sitio web<input tabIndex={-1} autoComplete="off" value={contact.website} onChange={(e) => setContact({ ...contact, website: e.target.value })} /></label>
+              {contactState.error && <p className="contact__error" role="alert">{contactState.error}</p>}
+              {contactState.ticket && <p className="contact__success" role="status">Solicitud enviada correctamente. Código: <strong>{contactState.ticket}</strong></p>}
+              <button className="btn btn--primary btn--lg" type="submit" disabled={contactState.loading}>{contactState.loading ? 'Enviando…' : <>Enviar solicitud <Send size={17} /></>}</button>
+              <small>Al enviar aceptas que usemos estos datos únicamente para responder tu solicitud.</small>
+            </form>
+          </div>
+        </section>
+
         <section className="cta section">
           <div className="container">
             <div className="cta__card">
@@ -390,7 +442,7 @@ export default function Landing() {
               <a href="#" aria-label="Correo">
                 <AtSign size={18} />
               </a>
-              <a href="#" aria-label="Contacto">
+              <a href="#contacto" aria-label="Contacto">
                 <Send size={18} />
               </a>
             </div>
@@ -400,6 +452,7 @@ export default function Landing() {
             <a href="#features">Características</a>
             <a href="#beneficios">Beneficios</a>
             <a href="#metricas">Métricas</a>
+            <a href="#contacto">Contacto</a>
           </div>
           <div className="footer__col">
             <h4>Cuenta</h4>

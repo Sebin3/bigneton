@@ -18,6 +18,7 @@ import {
   Menu,
   Settings,
   Target,
+  MessagesSquare,
   Users,
   X,
 } from 'lucide-react'
@@ -67,6 +68,7 @@ const ADMIN_GROUP = {
   items: [
     { to: '/dashboard/usuarios', label: 'Usuarios y Permisos', icon: Users },
     { to: '/dashboard/invitaciones', label: 'Invitaciones', icon: KeyRound },
+    { to: '/dashboard/solicitudes', label: 'Solicitudes', icon: MessagesSquare },
   ] as NavItem[],
 }
 
@@ -97,6 +99,7 @@ export default function DashboardLayout() {
   const navigate = useNavigate()
   const { time, date } = useClock()
   const isAdmin = user?.role === 'superadmin' || user?.role === 'admin'
+  const canViewRequests = isAdmin || user?.permissions?.solicitudes?.view === true
 
   const [collapsed, setCollapsed] = useState(() => localStorage.getItem(COLLAPSE_KEY) === '1')
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -155,10 +158,10 @@ export default function DashboardLayout() {
             <div className="space-y-0.5">{group.items.map(renderLink)}</div>
           </div>
         ))}
-        {isAdmin && (
+        {(isAdmin || canViewRequests) && (
           <div>
             {!collapsed && <p className="px-3 mb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{ADMIN_GROUP.title}</p>}
-            <div className="space-y-0.5">{ADMIN_GROUP.items.map(renderLink)}</div>
+            <div className="space-y-0.5">{ADMIN_GROUP.items.filter((item) => item.to !== '/dashboard/solicitudes' || canViewRequests).map(renderLink)}</div>
           </div>
         )}
         <div className="border-t border-border pt-4 space-y-0.5">
