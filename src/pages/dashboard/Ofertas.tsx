@@ -34,9 +34,9 @@ const OFFER_FIELDS: FieldDef[] = [
   { key: 'vigencia_fin', label: 'Fin', kind: 'date', locked: true },
 ]
 const TIPO_LABEL: Record<string, string> = {
-  descuento_leve: 'FidelizaciÃ³n',
+  descuento_leve: 'Fidelización',
   descuento_medio: 'Impulso de ventas',
-  descuento_liquidacion: 'LiquidaciÃ³n',
+  descuento_liquidacion: 'Liquidación',
 }
 
 function addDays(date: Date, days: number): Date {
@@ -74,7 +74,7 @@ function buildOffersTable(id: string, createdAt: string, rows: TableRow[]): User
   return {
     id,
     name: OFFERS_TABLE_NAME,
-    description: 'Creado desde el anÃ¡lisis de ventas',
+    description: 'Creado desde el análisis de ventas',
     icon: 'percent',
     group: 'ofertas',
     fields: OFFER_FIELDS,
@@ -84,7 +84,7 @@ function buildOffersTable(id: string, createdAt: string, rows: TableRow[]): User
   }
 }
 
-/** Convierte la respuesta de apiCrearOferta en una fila de Â«Tus ofertasÂ». */
+/** Convierte la respuesta de apiCrearOferta en una fila de «Tus ofertas». */
 function offerRow(oferta: ImpactoOferta, inicio: string, fin: string): TableRow {
   return {
     id: newRowId(),
@@ -102,8 +102,8 @@ function promoIdeas(items: OfertaSugerencia[]): string[] {
   const top = items[0]
   if (!top) return []
   const ideas: string[] = []
-  if (top.unidades > 1 && top.precioPromedio >= 200) ideas.push(`2x1 en Â«${top.producto}Â»`)
-  else ideas.push('EnvÃ­o gratis por compras desde $500')
+  if (top.unidades > 1 && top.precioPromedio >= 200) ideas.push(`2x1 en «${top.producto}»`)
+  else ideas.push('Envío gratis por compras desde $500')
   ideas.push('Combo de temporada con los productos top')
   return ideas.slice(0, 3)
 }
@@ -177,7 +177,7 @@ export default function Ofertas() {
       })
       .catch(() => {
         if (!cancelled) {
-          setError('No se pudieron leer tus ofertas. VerificÃ¡ tu conexiÃ³n.')
+          setError('No se pudieron leer tus ofertas. Verificá tu conexión.')
           setLoading(false)
         }
       })
@@ -215,7 +215,7 @@ export default function Ofertas() {
       await saveUserTable(buildOffersTable(id, createdAt, next))
       setMeta({ id, createdAt })
     } catch {
-      setError('No se pudo guardar la oferta. VerificÃ¡ tu conexiÃ³n.')
+      setError('No se pudo guardar la oferta. Verificá tu conexión.')
     }
   }
 
@@ -250,7 +250,7 @@ export default function Ofertas() {
     }
     if (creadas > 0) {
       void persistOffers([...offers, ...pendientes])
-      setNotice(`${creadas} oferta${creadas > 1 ? 's' : ''} creada${creadas > 1 ? 's' : ''} desde el anÃ¡lisis.`)
+      setNotice(`${creadas} oferta${creadas > 1 ? 's' : ''} creada${creadas > 1 ? 's' : ''} desde el análisis.`)
     } else {
       setSuggestionError('No se pudo crear ninguna oferta desde el dataset.')
     }
@@ -273,7 +273,7 @@ export default function Ofertas() {
         persist: true,
       })
       addOffer(offerRow(oferta, hoy, finVigencia))
-      setNotice(`Oferta creada para Â«${oferta.producto}Â»: ${money.format(oferta.precioOferta)} (${pct.format(oferta.descuento / 100)} dto.).`)
+      setNotice(`Oferta creada para «${oferta.producto}»: ${money.format(oferta.precioOferta)} (${pct.format(oferta.descuento / 100)} dto.).`)
     } catch {
       setSuggestionError('No se pudo crear la oferta desde el backend.')
     } finally {
@@ -285,7 +285,7 @@ export default function Ofertas() {
     if (!dataset) return
     const dto = parseNum(descuento) ?? 0
     if (!producto) {
-      setError('ElegÃ­ el producto del dataset.')
+      setError('Elegí el producto del dataset.')
       return
     }
     setManualSaving(true)
@@ -302,7 +302,7 @@ export default function Ofertas() {
       addOffer(offerRow(oferta, inicio || toISODate(new Date()), fin))
       setProducto('')
       setDescuento('')
-      setNotice(`Oferta guardada para Â«${oferta.producto}Â».`)
+      setNotice(`Oferta guardada para «${oferta.producto}».`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'No se pudo crear la oferta.')
     } finally {
@@ -345,7 +345,7 @@ export default function Ofertas() {
             <BadgePercent className="h-6 w-6 text-primary" /> Ofertas y promociones
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Las sugerencias salen de las ventas reales de Â«{dataset ? dataset.fileName : 'tu dataset'}Â»; crealas y quedan guardadas en <span className="font-medium text-foreground">Tus ofertas</span>.
+            Las sugerencias salen de las ventas reales de «{dataset ? dataset.fileName : 'tu dataset'}»; crealas y quedan guardadas en <span className="font-medium text-foreground">Tus ofertas</span>.
           </p>
         </div>
         {stats.total > 0 && <Badge variant="outline">{full.format(stats.total)} oferta{stats.total > 1 ? 's' : ''} creada{stats.total > 1 ? 's' : ''}</Badge>}
@@ -355,8 +355,8 @@ export default function Ofertas() {
         <CardContent className="grid gap-4 md:grid-cols-3 py-4">
           {[
             ['1. Analizamos tu dataset', 'Detectamos productos, precios y volumen de ventas.'],
-            ['2. ElegÃ­s las ofertas', 'Cada sugerencia trae su % de descuento y precio de oferta ya calculados.'],
-            ['3. Quedan en Â«Tus ofertasÂ»', 'Se guardan juntas y podÃ©s eliminarlas cuando quieras.'],
+            ['2. Elegís las ofertas', 'Cada sugerencia trae su % de descuento y precio de oferta ya calculados.'],
+            ['3. Quedan en «Tus ofertas»', 'Se guardan juntas y podés eliminarlas cuando quieras.'],
           ].map(([title, body]) => (
             <div key={title} className="flex gap-3 items-start">
               <Info className="h-4 w-4 text-primary mt-0.5 shrink-0" />
@@ -380,7 +380,7 @@ export default function Ofertas() {
                 <CardTitle className="text-base flex items-center gap-2">
                   <Wand2 className="h-4 w-4 text-primary" /> Ofertas sugeridas
                 </CardTitle>
-                <p className="text-xs text-muted-foreground">Basadas en las ventas reales del dataset. Dale Â«CrearÂ» a las que quieras aplicar.</p>
+                <p className="text-xs text-muted-foreground">Basadas en las ventas reales del dataset. Dale «Crear» a las que quieras aplicar.</p>
               </div>
               {backendOffers.length > 0 && (
                 <Button size="sm" variant="secondary" disabled={creatingAll} onClick={() => void createAll()}>
@@ -393,7 +393,7 @@ export default function Ofertas() {
           <CardContent className="space-y-4">
             {suggestionLoading ? (
               <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" /> Analizando el datasetâ€¦
+                <Loader2 className="h-4 w-4 animate-spin" /> Analizando el dataset…
               </div>
             ) : backendOffers.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-6">
@@ -440,7 +440,7 @@ export default function Ofertas() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                  <span className="font-medium text-foreground">AdemÃ¡s, podÃ©s combinar:</span>
+                  <span className="font-medium text-foreground">Además, podés combinar:</span>
                   {promoIdeas(backendOffers).map((idea) => (
                     <Badge key={idea} variant="secondary" className="text-[10px]">{idea}</Badge>
                   ))}
@@ -462,7 +462,7 @@ export default function Ofertas() {
                 <label className="text-xs text-muted-foreground">Producto (del dataset)</label>
                 <Select value={producto} onValueChange={setProducto}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="ElegÃ­ un producto" />
+                    <SelectValue placeholder="Elegí un producto" />
                   </SelectTrigger>
                   <SelectContent>
                     {backendOffers.map((sug) => (
@@ -502,7 +502,7 @@ export default function Ofertas() {
             <CardTitle className="text-base">Tus ofertas</CardTitle>
             {stats.total > 0 && (
               <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="text-[10px]">Descuento prom. {stats.avg !== null ? `${Math.round(stats.avg)}%` : 'â€”'}</Badge>
+                <Badge variant="secondary" className="text-[10px]">Descuento prom. {stats.avg !== null ? `${Math.round(stats.avg)}%` : '—'}</Badge>
                 <Badge variant="secondary" className="text-[10px]">Total en oferta {money.format(stats.enVenta)}</Badge>
               </div>
             )}
@@ -511,11 +511,11 @@ export default function Ofertas() {
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" /> Cargandoâ€¦
+              <Loader2 className="h-4 w-4 animate-spin" /> Cargando…
             </div>
           ) : stats.total === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">
-              TodavÃ­a no creaste ofertas. ElegÃ­ algunas sugeridas arriba y aparecerÃ¡n acÃ¡.
+              Todavía no creaste ofertas. Elegí algunas sugeridas arriba y aparecerán acá.
             </p>
           ) : (
             <div className="rounded-md border">
@@ -543,11 +543,11 @@ export default function Ofertas() {
                           <p className="text-sm font-medium">{row.producto}</p>
                         </TableCell>
                         <TableCell><Badge variant="outline" className="text-[10px]">{formatTipo(String(row.tipo ?? ''))}</Badge></TableCell>
-                        <TableCell className="text-right text-sm tabular-nums">{parseNum(String(row.descuento ?? '')) ?? 'â€”'}{parseNum(String(row.descuento ?? '')) !== null ? '%' : ''}</TableCell>
-                        <TableCell className="text-right text-sm tabular-nums text-muted-foreground">{precioAnterior !== null ? money.format(precioAnterior) : 'â€”'}</TableCell>
-                        <TableCell className="text-right text-sm tabular-nums text-primary font-semibold">{precioOferta !== null ? money.format(precioOferta) : 'â€”'}</TableCell>
+                        <TableCell className="text-right text-sm tabular-nums">{parseNum(String(row.descuento ?? '')) ?? '—'}{parseNum(String(row.descuento ?? '')) !== null ? '%' : ''}</TableCell>
+                        <TableCell className="text-right text-sm tabular-nums text-muted-foreground">{precioAnterior !== null ? money.format(precioAnterior) : '—'}</TableCell>
+                        <TableCell className="text-right text-sm tabular-nums text-primary font-semibold">{precioOferta !== null ? money.format(precioOferta) : '—'}</TableCell>
                         <TableCell className="text-xs text-muted-foreground">
-                          {desde && hasta ? `${desde} â€“ ${hasta}` : desde ?? hasta ?? 'Sin vigencia'}
+                          {desde && hasta ? `${desde} – ${hasta}` : desde ?? hasta ?? 'Sin vigencia'}
                         </TableCell>
                         <TableCell className="text-right">
                           <Button size="sm" variant="ghost" onClick={() => deleteOffer(String(row.id))}>
