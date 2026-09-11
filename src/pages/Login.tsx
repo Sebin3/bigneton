@@ -33,9 +33,11 @@ export default function Login() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const urlCode = searchParams.get('code') ?? ''
+  const urlEmail = searchParams.get('email') ?? ''
+  const fromInvite = Boolean(urlCode)
   const [mode, setMode] = useState<Mode>(() => (urlCode ? 'register' : 'login'))
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(urlEmail)
   const [password, setPassword] = useState('')
   const [inviteCode, setInviteCode] = useState(urlCode)
   const [showPassword, setShowPassword] = useState(false)
@@ -239,14 +241,21 @@ export default function Login() {
                     type="text"
                     placeholder="INV-XXXX-XXXX"
                     value={inviteCode}
+                    readOnly={fromInvite}
                     onChange={(e) => setInviteCode(e.target.value)}
                     autoComplete="off"
                     spellCheck={false}
                   />
                 </div>
-                <small className="field__hint">
-                  Lo enviamos por correo al invitarte.
-                </small>
+                {fromInvite ? (
+                  <small className="field__hint">
+                    Ya viene incluido en tu enlace de invitación.
+                  </small>
+                ) : (
+                  <small className="field__hint">
+                    Lo enviamos por correo al invitarte.
+                  </small>
+                )}
               </label>
             )}
 
@@ -258,10 +267,16 @@ export default function Login() {
                   type="email"
                   placeholder="tu@correo.com"
                   value={email}
+                  readOnly={fromInvite && mode === 'register'}
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                 />
               </div>
+              {fromInvite && mode === 'register' && (
+                <small className="field__hint">
+                  Este es el correo al que enviaron la invitación.
+                </small>
+              )}
             </label>
 
             <label className="field">

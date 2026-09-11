@@ -2,11 +2,11 @@ import { getToken } from './token'
 
 /**
  * URL base de la API. Se configura con VITE_API_URL (ver .env). En desarrollo
- * apunta al backend Express (`http://localhost:4100/api`).
+ * apunta al backend Express (`http://localhost:4000/api`).
  */
 export const API_URL: string =
   (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/+$/, '') ??
-  'http://localhost:4100/api'
+  'http://localhost:4000/api'
 
 /** Error lanzado por la capa API, con el código de negocio del backend. */
 export class ApiClientError extends Error {

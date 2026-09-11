@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import { useData } from '../../context/useData'
 import { TYPE_LABELS, cleanDataset, formatBytes, type CleanOptions, type CleanReport } from '../../lib/csvAnalyzer'
-import { apiCleanDataset, apiGetCleaningLogs, type CleaningLog } from '../../api/datasets'
+import { apiCleanDataset, apiGetCleaningLogs, apiGetDataset, type CleaningLog } from '../../api/datasets'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
@@ -27,7 +27,7 @@ function pageWindow(current: number, total: number): number[] {
 }
 
 export default function LimpiezaDatos() {
-  const { dataset, history } = useData()
+  const { dataset, history, saveDataset } = useData()
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
@@ -40,10 +40,15 @@ export default function LimpiezaDatos() {
   // Carga el historial de limpiezas del dataset actual desde el backend
   useEffect(() => {
     if (!dataset || loadedLogs === dataset.id) return
-    setLoadedLogs(dataset.id)
     void apiGetCleaningLogs(dataset.id)
-      .then(setLogs)
-      .catch(() => setLogs([]))
+      .then((logs) => {
+        setLoadedLogs(dataset.id)
+        setLogs(logs)
+      })
+      .catch(() => {
+        setLoadedLogs(dataset.id)
+        setLogs([])
+      })
   }, [dataset, loadedLogs])
 
   const filteredRows = useMemo(() => {
@@ -78,9 +83,19 @@ export default function LimpiezaDatos() {
           dropEmptyRows: true,
           trim: false,
         })
+        const cleaned = await apiGetDataset(dataset.id)
+        if (cleaned) {
+          // 3) Los datos limpios sustituyen al actual → Principal y Reportes
+          //    se actualizan automáticamente con el contenido ya limpio.
+          saveDataset(cleaned)
+          setLastReport({ report: result.report, fileName: cleaned.fileName })
+          setPage(1)
+          return
+        }
       } catch {
         /* si falla el persistido remoto, la versión local ya quedó lista */
       }
+      saveDataset(result.dataset)
       setLastReport({ report: result.report, fileName: result.dataset.fileName })
       setPage(1)
     } finally { setCleaning(false) }

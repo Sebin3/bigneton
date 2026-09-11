@@ -1,58 +1,89 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
+  Banknote,
+  CalendarRange,
+  Coins,
   Database,
   Download,
   FileSpreadsheet,
+  Layers,
+  Receipt,
+  Rows3,
   Search,
+  Tags,
+  TrendingDown,
+  TrendingUp,
 } from 'lucide-react'
 import { useData } from '../../context/useData'
 import { getAllDatasets } from '../../lib/datasetStore'
-import { formatBytes, type Dataset } from '../../lib/csvAnalyzer'
+import { exportDatasetCsv } from '../../lib/backup'
+import { TYPE_LABELS, type Dataset } from '../../lib/csvAnalyzer'
 import {
-  Line,
-  LineChart,
-  RadialBarChart,
-  RadialBar,
-  PolarAngleAxis,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
 } from 'recharts'
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 import { Badge } from '../../components/ui/badge'
-import { Progress } from '../../components/ui/progress'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const fmt = (fn: (...args: any[]) => any) => fn as any
 
 const full = new Intl.NumberFormat('es-MX')
+const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 })
 
-function CompletenessGauge({ value }: { value: number }) {
-  const data = [{ name: 'Completitud', value, fill: value >= 90 ? '#22c55e' : value >= 70 ? '#eab308' : '#ef4444' }]
+const PALETTE = [
+  'var(--color-chart-1)',
+  'var(--color-chart-2)',
+  'var(--color-chart-3)',
+  'var(--color-chart-4)',
+  'var(--color-chart-5)',
+]
+
+const TYPE_BADGE: Record<string, string> = {
+  numeric: 'border-transparent bg-sky-500/10 text-sky-600 dark:text-sky-400',
+  date: 'border-transparent bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  categorical: 'border-transparent bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  boolean: 'border-transparent bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  text: 'bg-muted text-foreground',
+}
+
+interface Kpi {
+  icon: typeof Rows3
+  label: string
+  value: string
+  sub: string
+  tone: string
+}
+
+function KpiCard({ icon: Icon, label, value, sub, tone }: Kpi) {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <ResponsiveContainer width={180} height={180}>
-        <RadialBarChart cx="50%" cy="50%" innerRadius="70%" outerRadius="100%" data={data} startAngle={90} endAngle={-270}>
-          <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-          <RadialBar background={{ fill: 'var(--color-muted)' }} dataKey="value" cornerRadius={10} />
-          <Tooltip
-            contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
-            formatter={fmt((v: number) => [`${v.toFixed(1)}%`, 'Completitud'])}
-          />
-        </RadialBarChart>
-      </ResponsiveContainer>
-      <div className="text-center -mt-4">
-        <p className="text-2xl font-bold">{value.toFixed(1)}%</p>
-        <p className="text-xs text-muted-foreground">Completitud del dataset</p>
+    <Card className="flex items-center gap-3 p-4">
+      <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${tone}`}>
+        <Icon className="h-5 w-5" />
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-xs text-muted-foreground">{label}</p>
+        <p className="truncate text-lg font-bold">{value}</p>
+        {sub && <p className="truncate text-xs text-muted-foreground">{sub}</p>}
       </div>
-    </div>
+    </Card>
   )
+}
+
+function toNumber(value: string | undefined): number | null {
+  if (value == null || String(value).trim() === '') return null
+  const n = parseFloat(String(value).replace(/[^0-9.-]/g, ''))
+  return Number.isNaN(n) ? null : n
 }
 
 export default function EstructuraDatos() {
@@ -74,6 +105,40 @@ export default function EstructuraDatos() {
 
   const selected = useMemo(() => datasets.find((d) => d.id === selectedId) ?? null, [datasets, selectedId])
 
+  const business = useMemo(() => {
+    if (!selected) return null
+    const revenueCol = selected.roles.revenue
+    const catCol = selected.roles.category
+    const values = revenueCol
+      ? selected.rows
+          .map((r) => toNumber(r[revenueCol]))
+          .filter((v): v is number => v !== null)
+      : []
+
+    const total = values.reduce((a, b) => a + b, 0)
+    const max = values.length ? Math.max(...values) : null
+    const min = values.length ? Math.min(...values) : null
+    const avg = values.length ? total / values.length : null
+
+    const categories = catCol
+      ? new Set(selected.rows.map((r) => String(r[catCol] ?? '').trim()).filter(Boolean)).size
+      : 0
+
+    const dateCol = selected.roles.date
+
+    return {
+      revenueCol,
+      catCol,
+      dateCol,
+      total,
+      max,
+      min,
+      avg,
+      categories,
+      withRevenue: values.length,
+    }
+  }, [selected])
+
   const filteredRows = useMemo(() => {
     if (!selected) return []
     const q = searchQuery.trim().toLowerCase()
@@ -85,210 +150,315 @@ export default function EstructuraDatos() {
 
   const headers = useMemo(() => selected?.columns.map((c) => c.name) ?? [], [selected])
 
-  const colTypes = useMemo(() => {
-    if (!selected) return new Map<string, string>()
-    return new Map(selected.columns.map((c) => [c.name, c.type]))
-  }, [selected])
+  if (datasets.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Estructura de datos</h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              Descubre qué contiene tu dataset y cómo se comporta el negocio
+            </p>
+          </div>
+          <Button onClick={() => navigate('/dashboard/procesar')}>
+            <FileSpreadsheet className="h-4 w-4" /> Procesar CSV
+          </Button>
+        </div>
+        <Card className="flex flex-col items-center justify-center gap-3 py-16">
+          <Database className="h-10 w-10 text-muted-foreground" />
+          <div className="text-center">
+            <p className="font-medium">Aún no hay datasets</p>
+            <p className="text-sm text-muted-foreground mt-1">Sube un archivo CSV para analizar su estructura y contenido.</p>
+          </div>
+          <Button onClick={() => navigate('/dashboard/procesar')}>Cargar CSV</Button>
+        </Card>
+      </div>
+    )
+  }
 
-  const columnCompleteness = useMemo(() => {
-    if (!selected) return []
-    return selected.columns.map((c) => ({
-      name: c.name,
-      completeness: selected.rowCount > 0 ? ((selected.rowCount - c.missing) / selected.rowCount) * 100 : 100,
-      type: c.type,
-    }))
-  }, [selected])
+  const kpis: Kpi[] = [
+    {
+      icon: Coins,
+      label: 'Dinero total',
+      value: business?.revenueCol != null ? money.format(business.total) : '—',
+      sub: business?.revenueCol != null ? `Columna «${business.revenueCol}»` : 'No se detectó columna de ingresos',
+      tone: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+    },
+    {
+      icon: Receipt,
+      label: 'Ticket promedio',
+      value: business?.withRevenue ? money.format(business.avg ?? 0) : '—',
+      sub: business?.withRevenue ? `${full.format(business.withRevenue)} ventas` : 'Sin ingresos detectados',
+      tone: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
+    },
+    {
+      icon: TrendingUp,
+      label: 'Monto máximo',
+      value: business?.max != null ? money.format(business.max) : '—',
+      sub: 'Mayor venta registrada',
+      tone: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+    },
+    {
+      icon: TrendingDown,
+      label: 'Monto mínimo',
+      value: business?.min != null ? money.format(business.min) : '—',
+      sub: 'Menor venta registrada',
+      tone: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+    },
+    {
+      icon: Rows3,
+      label: 'Registros',
+      value: selected ? full.format(selected.rowCount) : '—',
+      sub: selected ? `Subido el ${new Date(selected.uploadedAt).toLocaleDateString('es-MX')}` : '',
+      tone: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+    },
+    {
+      icon: Tags,
+      label: 'Categorías',
+      value: business?.categories ? full.format(business.categories) : '—',
+      sub: business?.catCol ? `Columna «${business.catCol}»` : 'Sin columna de categoría',
+      tone: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+    },
+  ]
+
+  const rolesRows = [
+    { role: 'Ingresos', col: business?.revenueCol, icon: Banknote },
+    { role: 'Categoría', col: business?.catCol, icon: Tags },
+    { role: 'Fecha', col: business?.dateCol, icon: CalendarRange },
+  ]
 
   return (
     <div className="space-y-6">
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Estructura de datasets</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Estructura de datos</h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Explora la completitud y contenido de cada dataset cargado
+            Descubre qué contiene tu dataset y cómo se comporta el negocio
           </p>
         </div>
-        <Button onClick={() => navigate('/dashboard/procesar')}>
-          <FileSpreadsheet className="h-4 w-4" /> Procesar CSV
-        </Button>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
-        {/* Sidebar: Dataset list */}
-        <Card className="h-fit max-h-[calc(100vh-12rem)] overflow-hidden flex flex-col">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Datasets ({datasets.length})</CardTitle>
-          </CardHeader>
-          <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-1">
-            {datasets.length === 0 ? (
-              <div className="text-center py-8 space-y-2">
-                <Database className="h-8 w-8 mx-auto text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">No hay datasets</p>
-                <Button size="sm" variant="outline" onClick={() => navigate('/dashboard/procesar')}>
-                  Cargar CSV
-                </Button>
-              </div>
-            ) : (
-              datasets.map((d) => (
-                <button
-                  key={d.id}
-                  onClick={() => { setSelectedId(d.id); setSearchQuery('') }}
-                  className={`w-full text-left rounded-lg p-3 transition-colors ${
-                    d.id === selectedId
-                      ? 'bg-primary/10 border border-primary/20'
-                      : 'hover:bg-muted border border-transparent'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium truncate">{d.fileName}</p>
-                    {d.id === dataset?.id && <Badge variant="secondary" className="text-[10px] ml-1">activo</Badge>}
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    {full.format(d.rowCount)} filas · {d.columnCount} cols · {formatBytes(d.sizeBytes)}
-                  </p>
-                  <Progress value={d.completeness} className="h-1.5 mt-2" />
-                  <p className="text-[10px] text-muted-foreground mt-1">{d.completeness.toFixed(1)}% completo</p>
-                </button>
-              ))
-            )}
-          </div>
-        </Card>
-
-        {/* Main content */}
-        <div className="space-y-6">
-          {!selected ? (
-            <Card>
-              <CardContent className="flex flex-col items-center justify-center py-16 space-y-3">
-                <Database className="h-10 w-10 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">Selecciona un dataset para ver su estructura</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <>
-              {/* Summary cards */}
-              <div className="grid gap-4 md:grid-cols-[220px_1fr]">
-                <Card className="flex items-center justify-center py-6">
-                  <CompletenessGauge value={selected.completeness} />
-                </Card>
-
-                <div className="grid gap-4 grid-cols-2">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-xs font-medium text-muted-foreground">Filas</CardTitle>
-                    </CardHeader>
-                    <CardContent><p className="text-2xl font-bold">{full.format(selected.rowCount)}</p></CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-xs font-medium text-muted-foreground">Columnas</CardTitle>
-                    </CardHeader>
-                    <CardContent><p className="text-2xl font-bold">{selected.columnCount}</p></CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-xs font-medium text-muted-foreground">Celdas vacías</CardTitle>
-                    </CardHeader>
-                    <CardContent><p className="text-2xl font-bold">{full.format(selected.missingCells)}</p></CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-xs font-medium text-muted-foreground">Tamaño</CardTitle>
-                    </CardHeader>
-                    <CardContent><p className="text-2xl font-bold">{formatBytes(selected.sizeBytes)}</p></CardContent>
-                  </Card>
-                </div>
-              </div>
-
-              {/* Chart + table lado a lado */}
-              <div className="grid gap-4 lg:grid-cols-2">
-                {/* Column completeness line chart */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Completitud por columna</CardTitle>
-                    <p className="text-xs text-muted-foreground mt-0.5">Evolución de la completitud a lo largo de las columnas</p>
-                  </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={260}>
-                        <LineChart data={columnCompleteness} margin={{ top: 8, right: 16, bottom: 8, left: -16 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                          <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} interval="preserveStartEnd" tickFormatter={(v: string) => (v.length > 10 ? `${v.slice(0, 10)}…` : v)} />
-                          <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} />
-                        <Tooltip
-                          cursor={{ stroke: 'var(--color-border)' }}
-                          contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
-                          labelStyle={{ color: 'var(--color-foreground)' }}
-                          formatter={(v: unknown) => [`${Number(v ?? 0).toFixed(1)}%`, 'Completitud']}
-                        />
-                          <Line
-                            type="monotone"
-                            dataKey="completeness"
-                            name="Completitud"
-                            stroke="var(--color-primary)"
-                            strokeWidth={2.5}
-                            dot={{ r: 3, fill: 'var(--color-primary)', strokeWidth: 0 }}
-                            activeDot={{ r: 5 }}
-                            unit="%"
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                  </CardContent>
-                </Card>
-
-                {/* Data table */}
-                <Card className="min-w-0">
-                  <CardHeader className="px-4 pt-4">
-                    <CardTitle className="text-base">Datos del dataset</CardTitle>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Mostrando {filteredRows.length} de {full.format(selected.rowCount)} filas
-                    </p>
-                    <div className="flex flex-wrap items-center gap-2 mt-2">
-                      <div className="relative flex-1">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          placeholder="Buscar en datos..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-8 w-full"
-                        />
-                      </div>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-4 w-4" /> CSV
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="rounded-md border overflow-auto max-h-[260px]">
-                      <Table>
-                        <TableHeader className="sticky top-0 bg-muted/50">
-                          <TableRow>
-                            {headers.map((h) => (
-                              <TableHead key={h} className="whitespace-nowrap">
-                                <span className="font-mono text-xs">{h}</span>
-                                <Badge variant="outline" className="ml-1 text-[10px]">{colTypes.get(h)}</Badge>
-                              </TableHead>
-                            ))}
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {filteredRows.map((row, i) => (
-                            <TableRow key={i}>
-                              {headers.map((h) => (
-                                <TableCell key={h} className="max-w-[160px] truncate text-xs">
-                                  {row[h] != null ? String(row[h]) : <span className="text-muted-foreground">—</span>}
-                                </TableCell>
-                              ))}
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </>
+        <div className="flex flex-wrap gap-2">
+          {selected && (
+            <Button variant="outline" onClick={() => exportDatasetCsv(selected)}>
+              <Download className="h-4 w-4" /> Descargar CSV
+            </Button>
           )}
+          <Button onClick={() => navigate('/dashboard/procesar')}>
+            <FileSpreadsheet className="h-4 w-4" /> Procesar CSV
+          </Button>
         </div>
       </div>
+
+      {/* Selector de datasets */}
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {datasets.map((d) => {
+          const isSelected = d.id === selectedId
+          return (
+            <button
+              key={d.id}
+              onClick={() => { setSelectedId(d.id); setSearchQuery('') }}
+              className={`group rounded-xl border p-4 text-left transition-all ${
+                isSelected
+                  ? 'border-primary/40 bg-primary/5 shadow-sm ring-1 ring-primary/30'
+                  : 'border-border bg-card hover:border-primary/30 hover:bg-muted/40'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-sm font-semibold">{d.fileName}</p>
+                {d.id === dataset?.id && (
+                  <Badge variant="secondary" className="shrink-0 text-[10px]">activo</Badge>
+                )}
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {full.format(d.rowCount)} registros · {new Date(d.uploadedAt).toLocaleDateString('es-MX')}
+              </p>
+              {d.roles.revenue && (
+                <p className="mt-1.5 text-[11px] text-emerald-600 dark:text-emerald-400">
+                  Ingresos en «{d.roles.revenue}»
+                </p>
+              )}
+            </button>
+          )
+        })}
+      </div>
+
+      {!selected ? (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center gap-2 py-16">
+            <Database className="h-10 w-10 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">Selecciona un dataset para ver su estructura</p>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          {/* KPIs de negocio del contenido */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {kpis.map((k) => <KpiCard key={k.label} {...k} />)}
+          </div>
+
+          {/* Estructura detectada */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Layers className="h-4 w-4 text-muted-foreground" /> Estructura detectada
+              </CardTitle>
+              <CardDescription>Cómo interpretó el motor tu dataset para el análisis</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 md:grid-cols-3">
+                {rolesRows.map(({ role, col, icon: Icon }) => {
+                  const profile = col ? selected.columns.find((c) => c.name === col) : undefined
+                  return (
+                    <div key={role} className="flex items-center gap-3 rounded-lg border p-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs text-muted-foreground">{role}</p>
+                        <p className="truncate text-sm font-semibold">{col ?? '—'}</p>
+                      </div>
+                      {profile && (
+                        <Badge variant="outline" className={`shrink-0 text-[10px] ${TYPE_BADGE[profile.type] ?? ''}`}>
+                          {TYPE_LABELS[profile.type as keyof typeof TYPE_LABELS] ?? profile.type}
+                        </Badge>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Comportamiento del contenido */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" /> {selected.insights.timelineTitle || 'Evolución temporal'}
+                </CardTitle>
+                <CardDescription>Comportamiento del dataset en el tiempo</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {selected.insights.timeline && selected.insights.timeline.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart data={selected.insights.timeline} margin={{ top: 8, right: 12, bottom: 8, left: -8 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                      <XAxis dataKey="label" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} tickLine={false} axisLine={false} />
+                      <YAxis tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} tickLine={false} axisLine={false} tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : String(v)} />
+                      <Tooltip
+                        cursor={{ fill: 'var(--color-muted)', opacity: 0.3 }}
+                        contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
+                        formatter={fmt((v: number) => [money.format(v), business?.revenueCol ? 'Ingresos' : 'Registros'])}
+                      />
+                      <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={32}>
+                        {selected.insights.timeline.map((_, i) => (
+                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-sm text-muted-foreground text-center py-12">
+                    No se detectó una columna de fecha para graficar la evolución
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Tags className="h-4 w-4 text-muted-foreground" /> {selected.insights.topCategoriesTitle || 'Valores más frecuentes'}
+                </CardTitle>
+                <CardDescription>Los protagonistas del contenido de tu dataset</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {selected.insights.topCategories && selected.insights.topCategories.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart data={selected.insights.topCategories} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
+                      <XAxis type="number" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} tickLine={false} axisLine={false} />
+                      <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: 'var(--color-muted-foreground)' }} tickLine={false} axisLine={false} width={120} />
+                      <Tooltip
+                        cursor={{ fill: 'var(--color-muted)', opacity: 0.3 }}
+                        contentStyle={{ borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-card)' }}
+                        formatter={fmt((v: number) => [money.format(v), 'Valor'])}
+                      />
+                      <Bar dataKey="value" radius={[0, 6, 6, 0]} maxBarSize={24}>
+                        {selected.insights.topCategories.map((_, i) => (
+                          <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <p className="text-sm text-muted-foreground text-center py-12">
+                    No se detectó una columna de categoría para este análisis
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Vista previa del contenido */}
+          <Card>
+            <CardHeader className="px-4 pt-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <div>
+                  <CardTitle className="text-base">Contenido del dataset</CardTitle>
+                  <CardDescription className="mt-0.5">
+                    Mostrando {filteredRows.length} de {full.format(selected.rowCount)} filas
+                  </CardDescription>
+                </div>
+                <div className="relative flex-1 min-w-[200px]">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar en datos..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-8 w-full"
+                  />
+                </div>
+                <Button variant="outline" size="sm" onClick={() => exportDatasetCsv(selected)}>
+                  <Download className="h-4 w-4" /> CSV
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-auto rounded-md border max-h-[320px]">
+                <Table>
+                  <TableHeader className="sticky top-0 bg-muted/50">
+                    <TableRow>
+                      {headers.map((h) => (
+                        <TableHead key={h} className="whitespace-nowrap font-mono text-xs">
+                          {h}
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredRows.map((row, i) => (
+                      <TableRow key={i}>
+                        {headers.map((h) => (
+                          <TableCell key={h} className="max-w-[160px] truncate text-xs">
+                            {row[h] != null ? String(row[h]) : <span className="text-muted-foreground">—</span>}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                    {filteredRows.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={headers.length} className="py-8 text-center text-sm text-muted-foreground">
+                          Sin resultados para «{searchQuery}»
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   )
 }

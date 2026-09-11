@@ -48,6 +48,14 @@ function App() {
                 }
               />
               <Route
+                path="/register"
+                element={
+                  <GuestRoute>
+                    <Login />
+                  </GuestRoute>
+                }
+              />
+              <Route
                 path="/verify"
                 element={
                   <PendingRoute>

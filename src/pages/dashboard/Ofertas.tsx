@@ -24,6 +24,16 @@ const pct = new Intl.NumberFormat('es-MX', { style: 'percent', maximumFractionDi
 const TEMPLATE_ICONS: Record<TableTemplate['id'], LucideIcon> = { ofertas: BadgePercent, campanas: Megaphone, libre: Table2 }
 const STEPS = ['Plantilla', 'Columnas', 'Datos'] as const
 
+function promoIdeas(items: OfertaSugerencia[]): string[] {
+  const ideas: string[] = []
+  const top = items[0]
+  if (!top) return ideas
+  if (top.unidades > 1 && top.precioPromedio >= 200) ideas.push(`2x1 en «${top.producto}»`)
+  else ideas.push('Envío gratis por compras desde $500')
+  ideas.push('Combo de temporada con los productos top')
+  return ideas.slice(0, 3)
+}
+
 export default function Ofertas() {
   const { dataset } = useData()
   const [tables, setTables] = useState<UserTable[]>([])
@@ -34,10 +44,13 @@ export default function Ofertas() {
   const [draftName, setDraftName] = useState('')
   const [templateId, setTemplateId] = useState<TableTemplate['id']>('ofertas')
   const [step, setStep] = useState<0 | 1 | 2>(0)
+  const [wizardOpen, setWizardOpen] = useState(false)
   const csvRef = useRef<HTMLInputElement>(null)
   const [backendOffers, setBackendOffers] = useState<OfertasResult | null>(null)
   const [suggestionError, setSuggestionError] = useState('')
   const [suggesting, setSuggesting] = useState<string | null>(null)
+  const [creatingAll, setCreatingAll] = useState(false)
+  const [fetchedId, setFetchedId] = useState<string | null>(null)
 
   useEffect(() => {
     void getUserTables().then((all) => {
@@ -48,10 +61,25 @@ export default function Ofertas() {
   }, [])
 
   useEffect(() => {
-    if (!dataset) { setBackendOffers(null); return }
-    setSuggestionError('')
-    void apiGetOfertas(dataset.id).then(setBackendOffers).catch(() => setBackendOffers(null))
+    if (!dataset) return
+    let cancelled = false
+    void apiGetOfertas(dataset.id)
+      .then((res) => {
+        if (cancelled) return
+        setBackendOffers(res)
+        setSuggestionError('')
+        setFetchedId(dataset.id)
+      })
+      .catch(() => {
+        if (cancelled) return
+        setBackendOffers(null)
+        setSuggestionError('No se pudo analizar el dataset para sugerir ofertas.')
+        setFetchedId(dataset.id)
+      })
+    return () => { cancelled = true }
   }, [dataset])
+
+  const suggestionLoading = dataset != null && fetchedId !== dataset.id
 
   const applySuggestion = async (sug: OfertaSugerencia) => {
     if (!dataset) return
@@ -91,11 +119,60 @@ export default function Ofertas() {
     } catch { setSuggestionError('No se pudo crear la oferta desde el backend.') } finally { setSuggesting(null) }
   }
 
+  const applyAll = async () => {
+    if (!dataset || !backendOffers || creatingAll) return
+    setCreatingAll(true)
+    setSuggestionError('')
+    const added: UserTable[] = []
+    let created = 0
+    try {
+      for (const sug of backendOffers.items) {
+        try {
+          const { oferta, persisted } = await apiCrearOferta(dataset.id, {
+            producto: sug.producto,
+            descuento: sug.descuentoSugerido,
+            tipo: sug.tipo,
+            vigencia: '30 days',
+            persist: true,
+          })
+          if (!persisted) continue
+          added.push({
+            id: persisted,
+            name: oferta.producto,
+            description: oferta.fundamento ?? '',
+            icon: '👑',
+            group: 'ofertas',
+            fields: [
+              { key: 'nombre', label: 'Producto', kind: 'text' },
+              { key: 'tipo', label: 'Tipo', kind: 'text' },
+              { key: 'descuento', label: 'Descuento', kind: 'number' },
+              { key: 'precioOferta', label: 'Precio oferta', kind: 'number' },
+            ],
+            rows: [{ nombre: oferta.producto, tipo: oferta.tipo, descuento: String(oferta.descuento), precioOferta: String(oferta.precioOferta) }],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          })
+          created++
+        } catch {
+          continue
+        }
+      }
+      if (created > 0) {
+        setTables((prev) => [...added, ...prev].sort((a, b) => a.createdAt.localeCompare(b.createdAt)))
+        setActiveId(added[0].id)
+        setNotice(`${created} oferta${created > 1 ? 's' : ''} creada${created > 1 ? 's' : ''} desde el análisis del dataset.`)
+      } else {
+        setSuggestionError('No se pudo crear ninguna oferta desde el dataset.')
+      }
+    } finally { setCreatingAll(false) }
+  }
+
   const activeTable = useMemo(() => tables.find((t) => t.id === activeId) ?? null, [tables, activeId])
   const summary = useMemo(() => summarizeOffers(tables), [tables])
   const timeline = useMemo(() => buildTimeline(summary.records), [summary.records])
   const offerTables = useMemo(() => tables.filter(isOfferTable), [tables])
   const hasData = tables.length > 0
+  const showWizard = !loading && (!hasData || wizardOpen)
   const selectedTemplate = useMemo(() => TEMPLATES.find((t) => t.id === templateId) ?? TEMPLATES[0], [templateId])
 
   const persist = useCallback(async (next: UserTable) => {
@@ -111,6 +188,7 @@ export default function Ofertas() {
     setDraftName('')
     setNotice(`Tabla «${table.name}» creada.`)
     setStep(2)
+    setWizardOpen(false)
     try { await saveUserTable(table) } catch { setError('No se pudo guardar.') }
   }
 
@@ -123,6 +201,7 @@ export default function Ofertas() {
       setDraftName('')
       setNotice(`«${table.name}» creada con ${table.rows.length} filas.`)
       setStep(2)
+      setWizardOpen(false)
       await saveUserTable(table)
     } catch (err) { setNotice(''); setError(err instanceof Error ? err.message : 'No se pudo importar.') }
   }
@@ -130,7 +209,7 @@ export default function Ofertas() {
   const remove = async (table: UserTable) => {
     if (!window.confirm(`¿Eliminar «${table.name}»?`)) return
     setTables((prev) => { const next = prev.filter((t) => t.id !== table.id); setActiveId((c) => c === table.id ? next[0]?.id ?? '' : c); return next })
-    try { await deleteUserTable(table.id) } catch {}
+    try { await deleteUserTable(table.id) } catch (err) { void err }
   }
 
   const kpis = [
@@ -145,7 +224,7 @@ export default function Ofertas() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Ofertas y promociones</h1>
-          <p className="text-muted-foreground text-sm mt-1">{hasData ? 'Gestiona tus ofertas, mide inversión y retorno' : 'Crea tu primera tabla en 3 pasos'}</p>
+          <p className="text-muted-foreground text-sm mt-1">El dataset sugiere ofertas y promociones automáticamente; convierte las mejores en tablas y mide su retorno</p>
         </div>
         {hasData && <Badge variant="outline">{full.format(summary.total)} registros · {tables.length} tablas</Badge>}
       </div>
@@ -153,7 +232,103 @@ export default function Ofertas() {
       {error && <p className="text-sm text-destructive">{error}</p>}
       {!error && notice && <p className="text-sm text-emerald-600">{notice}</p>}
 
-      {!hasData && (
+      {dataset && (
+        <Card className="border-primary/30">
+          <CardHeader>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="space-y-0.5">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Wand2 className="h-4 w-4 text-primary" /> Análisis automático: ofertas y promociones
+                </CardTitle>
+                <p className="text-xs text-muted-foreground">
+                  Sugerencias generadas a partir del contenido de «{dataset.fileName}»
+                </p>
+              </div>
+              <Badge variant="secondary" className="text-[10px]">Método insight</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {suggestionLoading ? (
+              <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" /> Analizando el dataset…
+              </div>
+            ) : backendOffers ? (
+              <>
+                {suggestionError && <p className="text-sm text-destructive">{suggestionError}</p>}
+                {backendOffers.items.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-6">
+                    No se pudieron sugerir ofertas con el dataset actual.
+                  </p>
+                ) : (
+                  <>
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-xs text-muted-foreground">
+                        {backendOffers.productoColumn
+                          ? `Producto detectado en «${backendOffers.productoColumn}» · ${money.format(backendOffers.totalRevenue)} en ventas`
+                          : 'El backend no detectó una columna de producto clara'}
+                      </p>
+                      <Button size="sm" disabled={creatingAll} onClick={() => void applyAll()}>
+                        {creatingAll ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
+                        Aplicar todas las sugeridas
+                      </Button>
+                    </div>
+
+                    <div className="rounded-md border">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Producto</TableHead>
+                            <TableHead>Rendimiento</TableHead>
+                            <TableHead className="text-right">Unidades</TableHead>
+                            <TableHead className="text-right">Precio prom.</TableHead>
+                            <TableHead className="text-right">Descuento sugerido</TableHead>
+                            <TableHead className="text-right">Precio de oferta</TableHead>
+                            <TableHead />
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {backendOffers.items.slice(0, 12).map((sug) => (
+                            <TableRow key={sug.producto}>
+                              <TableCell>
+                                <p className="text-sm font-medium">{sug.producto}</p>
+                                <p className="text-[11px] text-muted-foreground max-w-[260px] truncate">{sug.fundamento}</p>
+                              </TableCell>
+                              <TableCell><Badge variant="outline" className="text-[10px]">{sug.etiqueta}</Badge></TableCell>
+                              <TableCell className="text-right text-sm tabular-nums">{full.format(sug.unidades)}</TableCell>
+                              <TableCell className="text-right text-sm tabular-nums">{money.format(sug.precioPromedio)}</TableCell>
+                              <TableCell className="text-right"><Badge className="text-[10px]">{pct.format(sug.descuentoSugerido)}</Badge></TableCell>
+                              <TableCell className="text-right text-sm tabular-nums text-primary font-semibold">{money.format(sug.precioOferta)}</TableCell>
+                              <TableCell className="text-right">
+                                <Button size="sm" variant="outline" disabled={suggesting === sug.producto} onClick={() => void applySuggestion(sug)}>
+                                  {suggesting === sug.producto ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                                  Crear
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                      <span className="font-medium text-foreground">Ideas de promociones:</span>
+                      {promoIdeas(backendOffers.items).map((idea) => (
+                        <Badge key={idea} variant="secondary" className="text-[10px]">{idea}</Badge>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                {suggestionError || 'No hay dataset vinculado para analizar.'}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {showWizard && (
         <nav className="flex items-center gap-2 bg-card border rounded-xl p-3">
           {STEPS.map((label, i) => (
             <span key={label} className={`flex items-center gap-1.5 text-sm font-medium ${step >= i ? 'text-primary' : 'text-muted-foreground'}`}>
@@ -165,7 +340,7 @@ export default function Ofertas() {
         </nav>
       )}
 
-      {!hasData && step === 0 && (
+      {showWizard && step === 0 && (
         <Card>
           <CardHeader><CardTitle className="text-base">Elegí una plantilla</CardTitle></CardHeader>
           <CardContent className="space-y-4">
@@ -190,7 +365,7 @@ export default function Ofertas() {
         </Card>
       )}
 
-      {!hasData && step === 1 && (
+      {showWizard && step === 1 && (
         <Card>
           <CardHeader><CardTitle className="text-base">Columnas de «{draftName.trim() || selectedTemplate.name}»</CardTitle></CardHeader>
           <CardContent className="space-y-4">
@@ -243,58 +418,6 @@ export default function Ofertas() {
             </Card>
           )}
 
-          {backendOffers && dataset && (
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-base flex items-center gap-2"><Wand2 className="h-4 w-4" /> Sugerencias del dataset</CardTitle>
-                    <p className="text-xs text-muted-foreground mt-0.5">{backendOffers.productoColumn ? `Detectado en columna «${backendOffers.productoColumn}» · S/ ${full.format(backendOffers.totalRevenue)} en ventas` : 'El backend no detectó una columna de producto clara'}</p>
-                  </div>
-                  <Badge variant="outline" className="text-[10px]">Backend</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {suggestionError && <p className="text-sm text-destructive mb-3">{suggestionError}</p>}
-                {backendOffers.items.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-6">No se pudieron sugerir ofertas con el dataset actual.</p>
-                ) : (
-                  <div className="rounded-md border">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Producto</TableHead>
-                          <TableHead className="text-right">Unidades</TableHead>
-                          <TableHead className="text-right">Precio prom.</TableHead>
-                          <TableHead>Descuento sugerido</TableHead>
-                          <TableHead className="text-right">Precio de oferta</TableHead>
-                          <TableHead className="text-right">Crear</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {backendOffers.items.slice(0, 8).map((sug) => (
-                          <TableRow key={sug.producto}>
-                            <TableCell className="text-sm font-medium">{sug.producto}</TableCell>
-                            <TableCell className="text-right text-sm tabular-nums">{full.format(sug.unidades)}</TableCell>
-                            <TableCell className="text-right text-sm tabular-nums">{money.format(sug.precioPromedio)}</TableCell>
-                            <TableCell><Badge className="text-[10px]">{pct.format(sug.descuentoSugerido)}</Badge></TableCell>
-                            <TableCell className="text-right text-sm tabular-nums text-primary font-semibold">{money.format(sug.precioOferta)}</TableCell>
-                            <TableCell className="text-right">
-                              <Button size="sm" variant="outline" disabled={suggesting === sug.producto} onClick={() => void applySuggestion(sug)}>
-                                {suggesting === sug.producto ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                                Crear
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
           <div className="grid gap-4 md:grid-cols-2">
             <Card>
               <CardHeader><CardTitle className="text-base">Inversión vs Ingreso por mes</CardTitle></CardHeader>
@@ -341,24 +464,25 @@ export default function Ofertas() {
         </>
       )}
 
-      {tables.length > 1 && (
-        <div className="flex flex-wrap gap-2">
+      {tables.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
           {tables.map((t) => (
             <Button key={t.id} variant={t.id === activeId ? 'default' : 'outline'} size="sm" onClick={() => setActiveId(t.id)}>
               {t.name} <Badge variant="secondary" className="ml-1 text-[10px]">{t.rows.length}</Badge>
             </Button>
           ))}
-          <Button variant="ghost" size="sm" onClick={() => setStep(0)}><Plus className="h-3.5 w-3.5" /> Nueva tabla</Button>
+          <span className="text-xs text-muted-foreground px-1">Tablas manuales</span>
+          <Button variant="ghost" size="sm" onClick={() => { setStep(0); setWizardOpen(true) }}><Plus className="h-3.5 w-3.5" /> Nueva tabla</Button>
         </div>
       )}
 
       {activeTable ? (
         <TableBuilder key={activeTable.id} table={activeTable} onChange={(next) => void persist(next)} onDelete={(t) => void remove(t)} />
-      ) : !loading && (
+      ) : !loading && !showWizard && (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-16 space-y-3">
             <Table2 className="h-10 w-10 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">No tienes tablas aún. Elegí una plantilla arriba.</p>
+            <p className="text-sm text-muted-foreground">No tienes tablas aún. Creá una desde el asistente manual.</p>
           </CardContent>
         </Card>
       )}

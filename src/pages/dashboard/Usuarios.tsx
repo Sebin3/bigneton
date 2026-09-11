@@ -48,6 +48,54 @@ const ROLE_LABELS: Record<string, string> = {
   user: 'Usuario',
 }
 
+type ModulePermissions = Record<string, Record<string, boolean>>
+
+function fullPermissions(): ModulePermissions {
+  const out: ModulePermissions = {}
+  for (const mod of PERMISSION_MODULES) {
+    out[mod.module] = {}
+    for (const a of mod.actions) out[mod.module][a.action] = true
+  }
+  return out
+}
+
+/** Permisos que un rol trae por defecto (base para todo usuario nuevo). */
+const ROLE_DEFAULT_PERMISSIONS: Record<string, ModulePermissions> = {
+  superadmin: fullPermissions(),
+  admin: fullPermissions(),
+  analyst: {
+    pipeline: { view: true, edit: true },
+    ofertas: { view: true, edit: true },
+    reportes: { view: true },
+    datasets: { view: true, edit: true },
+  },
+  auditor: {
+    pipeline: { view: true },
+    ofertas: { view: true },
+    reportes: { view: true },
+    datasets: { view: true },
+  },
+  user: {
+    pipeline: { view: true },
+    reportes: { view: true },
+  },
+}
+
+/**
+ * Permisos efectivos de un usuario: los del rol por defecto + los overrides
+ * guardados. Un `false` guardado sobreescribe el default activo y viceversa.
+ */
+function effectivePermissions(user: User): ModulePermissions {
+  const defaults = ROLE_DEFAULT_PERMISSIONS[user.role] ?? {}
+  const stored = user.permissions ?? {}
+  const modules = new Set([...Object.keys(defaults), ...Object.keys(stored)])
+  const out: ModulePermissions = {}
+  for (const module of modules) {
+    out[module] = { ...(defaults[module] ?? {}), ...(stored[module] ?? {}) }
+  }
+  return out
+}
+
 const ROLE_COLORS: Record<string, 'default' | 'secondary' | 'outline' | 'destructive'> = {
   superadmin: 'destructive',
   admin: 'default',
@@ -77,6 +125,23 @@ export default function Usuarios() {
 
   const editingUser = useMemo(() => users.find((u) => u.id === editingId) ?? null, [users, editingId])
 
+  const editingPerms = useMemo(
+    () => (editingUser ? effectivePermissions(editingUser) : {}),
+    [editingUser],
+  )
+
+  const permissionCounts = useMemo(() => {
+    let total = 0
+    let active = 0
+    for (const mod of PERMISSION_MODULES) {
+      for (const a of mod.actions) {
+        total += 1
+        if (editingPerms[mod.module]?.[a.action] === true) active += 1
+      }
+    }
+    return { total, active }
+  }, [editingPerms])
+
   const canEdit = (u: User) => {
     if (isSuperAdmin) return u.email !== me?.email
     if (u.role === 'superadmin' || u.role === 'admin') return false
@@ -84,10 +149,12 @@ export default function Usuarios() {
   }
 
   const hasPermission = (u: User, module: string, action: string) =>
-    u.permissions?.[module]?.[action] === true
+    effectivePermissions(u)[module]?.[action] === true
 
   const togglePermission = async (userId: string, module: string, action: string, current: boolean) => {
-    const perms = editingUser?.permissions ?? {}
+    const target = users.find((u) => u.id === userId)
+    if (!target) return
+    const perms = effectivePermissions(target)
     const nextPerms = {
       ...perms,
       [module]: {
@@ -211,6 +278,9 @@ export default function Usuarios() {
                   <Badge variant={ROLE_COLORS[editingUser.role] ?? 'outline'}>
                     {ROLE_LABELS[editingUser.role] ?? editingUser.role}
                   </Badge>
+                  <span className="text-xs text-muted-foreground">
+                    {permissionCounts.active}/{permissionCounts.total} permisos activos
+                  </span>
                 </div>
                 <Separator />
                 <div className="space-y-4">
@@ -244,7 +314,7 @@ export default function Usuarios() {
                         value={editingUser.role}
                         onChange={(e) => void updateRole(editingUser.id, e.target.value)}
                       >
-                        {Object.entries(ROLE_LABELS).filter(([, _label]) => true).map(([key, label]) => (
+                        {Object.entries(ROLE_LABELS).map(([key, label]) => (
                           <option key={key} value={key}>{label}</option>
                         ))}
                       </select>

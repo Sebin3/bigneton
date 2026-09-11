@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import {
   Bar,
   BarChart,
@@ -18,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/ta
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table'
 import { Badge } from '../../components/ui/badge'
 import { useData } from '../../context/useData'
+import { useAuth } from '../../context/useAuth'
 import { exportDatasetCsv } from '../../lib/backup'
 import { apiEnrichDataset } from '../../api/datasets'
 import type { EnrichResult } from '../../api/datasets'
@@ -49,31 +51,32 @@ function extractReportData(dataset: Dataset | null) {
   const categoryCol = dataset.roles.category
 
   let totalRevenue = 0
-  let totalRows = dataset.rowCount
-  let totalMissing = dataset.missingCells
-  let numericSummaries: { name: string; sum: number; avg: number; count: number }[] = []
-  let categoryBreakdown: { name: string; count: number; total: number }[] = []
+  const totalRows = dataset.rowCount
+  const totalMissing = dataset.missingCells
+  const numericSummaries: { name: string; sum: number; avg: number; count: number }[] = dataset.columns
+    .filter((c) => c.type === 'numeric')
+    .map((c) => {
+      const values = dataset.rows
+        .map((r) => parseFloat(String(r[c.name] ?? '').replace(/[^0-9.-]/g, '')))
+        .filter((v) => !isNaN(v))
+      const sum = values.reduce((a, v) => a + v, 0)
+      return {
+        name: c.name,
+        sum: Math.round(sum),
+        avg: values.length > 0 ? Math.round(sum / values.length) : 0,
+        count: values.length,
+      }
+    })
+    .filter((s) => s.count > 0)
 
   if (revenueCol) {
     const revenueValues = dataset.rows
-      .map((r) => parseFloat(String(r[revenueCol] ?? '').replace(/[^0-9.\-]/g, '')))
+      .map((r) => parseFloat(String(r[revenueCol] ?? '').replace(/[^0-9.-]/g, '')))
       .filter((v) => !isNaN(v))
     totalRevenue = revenueValues.reduce((a, v) => a + v, 0)
   }
 
-  const numericCols = dataset.columns.filter((c) => c.type === 'numeric')
-  numericSummaries = numericCols.map((c) => {
-    const values = dataset.rows
-      .map((r) => parseFloat(String(r[c.name] ?? '').replace(/[^0-9.\-]/g, '')))
-      .filter((v) => !isNaN(v))
-    const sum = values.reduce((a, v) => a + v, 0)
-    return {
-      name: c.name,
-      sum: Math.round(sum),
-      avg: values.length > 0 ? Math.round(sum / values.length) : 0,
-      count: values.length,
-    }
-  }).filter((s) => s.count > 0)
+  let categoryBreakdown: { name: string; count: number; total: number }[] = []
 
   if (categoryCol) {
     const catMap = new Map<string, { count: number; total: number }>()
@@ -82,7 +85,7 @@ function extractReportData(dataset: Dataset | null) {
       const entry = catMap.get(cat) ?? { count: 0, total: 0 }
       entry.count++
       if (revenueCol) {
-        const val = parseFloat(String(row[revenueCol] ?? '').replace(/[^0-9.\-]/g, ''))
+        const val = parseFloat(String(row[revenueCol] ?? '').replace(/[^0-9.-]/g, ''))
         if (!isNaN(val)) entry.total += val
       }
       catMap.set(cat, entry)
@@ -107,17 +110,251 @@ function extractReportData(dataset: Dataset | null) {
   }
 }
 
+function toN(value: string | undefined): number | null {
+  if (value == null || String(value).trim() === '') return null
+  const n = parseFloat(String(value).replace(/[^0-9.-]/g, ''))
+  return Number.isNaN(n) ? null : n
+}
+
+const printCell = {
+  padding: '5px 8px',
+  borderBottom: '1px solid #d0d7de',
+  textAlign: 'left' as const,
+  verticalAlign: 'top' as const,
+}
+
+const printHead = {
+  padding: '5px 8px',
+  borderBottom: '2px solid #17324d',
+  textAlign: 'left' as const,
+  fontSize: 10,
+  fontWeight: 700,
+  textTransform: 'uppercase' as const,
+  letterSpacing: 0.04,
+  color: '#17324d',
+}
+
+function PSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section style={{ marginTop: 22 }}>
+      <h3 style={{ fontSize: 13, fontWeight: 700, color: '#17324d', borderBottom: '2px solid #17324d', paddingBottom: 4, marginBottom: 8 }}>
+        {title}
+      </h3>
+      {children}
+    </section>
+  )
+}
+
+function PrintReport({
+  dataset,
+  data,
+  user,
+}: {
+  dataset: Dataset
+  data: NonNullable<ReturnType<typeof extractReportData>>
+  user: { name?: string; email?: string } | null
+}) {
+  const revenueCol = dataset.roles.revenue
+  const values = revenueCol
+    ? dataset.rows.map((r) => toN(r[revenueCol])).filter((v): v is number => v !== null)
+    : []
+  const total = values.reduce((a, b) => a + b, 0)
+  const avg = values.length ? total / values.length : null
+  const max = values.length ? Math.max(...values) : null
+  const min = values.length ? Math.min(...values) : null
+
+  const generated = new Date().toLocaleString('es-MX', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+
+  return createPortal(
+    <div className="print-report">
+      <div style={{ background: '#17324d', color: '#ffffff', padding: '18px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: 0.2 }}>BigData <span style={{ fontWeight: 400 }}>· Informe Comercial</span></div>
+          <div style={{ fontSize: 10, opacity: 0.75, marginTop: 2 }}>Plataforma de análisis de datos para la toma de decisiones</div>
+        </div>
+        <div style={{ textAlign: 'right', fontSize: 10, opacity: 0.85 }}>
+          <div>Generado el {generated}</div>
+          <div>{user?.name ? `Elaborado por ${user.name}` : ''}</div>
+        </div>
+      </div>
+
+      <div style={{ padding: '0 22px' }}>
+        <div style={{ marginTop: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {[
+            ['Dataset', dataset.fileName],
+            ['Registros', full.format(data.totalRows)],
+            ['Columnas', String(data.columnCount)],
+            ['Fecha de carga', new Date(dataset.uploadedAt).toLocaleDateString('es-MX')],
+            ['Completitud', `${data.completeness.toFixed(1)}%`],
+          ].map(([label, value]) => (
+            <div key={label} style={{ flex: 1, minWidth: 120 }}>
+              <div style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: 0.05, color: '#57606a' }}>{label}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#16181f', marginTop: 2 }}>{value}</div>
+            </div>
+          ))}
+        </div>
+
+        <PSection title="Resumen ejecutivo">
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+            <tbody>
+              <tr>
+                <td style={{ ...printCell, width: '50%' }}>
+                  <div style={{ fontSize: 9, textTransform: 'uppercase', color: '#57606a' }}>Dinero total</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: '#17324d' }}>{money.format(total)}</div>
+                </td>
+                <td style={{ ...printCell, width: '50%' }}>
+                  <div style={{ fontSize: 9, textTransform: 'uppercase', color: '#57606a' }}>Ticket promedio</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: '#17324d' }}>{avg != null ? money.format(avg) : '—'}</div>
+                </td>
+              </tr>
+              <tr>
+                <td style={{ ...printCell }}>
+                  <div style={{ fontSize: 9, textTransform: 'uppercase', color: '#57606a' }}>Monto máximo</div>
+                  <div style={{ fontSize: 13, fontWeight: 700 }}>{max != null ? money.format(max) : '—'}</div>
+                </td>
+                <td style={{ ...printCell }}>
+                  <div style={{ fontSize: 9, textTransform: 'uppercase', color: '#57606a' }}>Monto mínimo</div>
+                  <div style={{ fontSize: 13, fontWeight: 700 }}>{min != null ? money.format(min) : '—'}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </PSection>
+
+        {data.timeline.length > 0 && (
+          <PSection title={dataset.insights.timelineTitle || 'Evolución temporal'}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+              <thead>
+                <tr>
+                  <th style={printHead}>Período</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>{revenueCol ? 'Ingresos' : 'Registros'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.timeline.map((t) => (
+                  <tr key={t.label}>
+                    <td style={printCell}>{t.label}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
+                      {revenueCol ? money.format(t.value) : full.format(t.value)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </PSection>
+        )}
+
+        {data.categoryBreakdown.length > 0 && (
+          <PSection title={dataset.insights.topCategoriesTitle.includes('categor') ? dataset.insights.topCategoriesTitle : 'Desglose por categoría'}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+              <thead>
+                <tr>
+                  <th style={printHead}>Categoría</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>Registros</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>Ingresos</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.categoryBreakdown.map((c) => (
+                  <tr key={c.name}>
+                    <td style={printCell}>{c.name}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{full.format(c.count)}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{c.total > 0 ? money.format(c.total) : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </PSection>
+        )}
+
+        {data.numericSummaries.length > 0 && (
+          <PSection title="Resumen de columnas numéricas">
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+              <thead>
+                <tr>
+                  <th style={printHead}>Columna</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>Total</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>Promedio</th>
+                  <th style={{ ...printHead, textAlign: 'right' }}>Registros</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.numericSummaries.map((s) => (
+                  <tr key={s.name}>
+                    <td style={printCell}>{s.name}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{money.format(s.sum)}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{money.format(s.avg)}</td>
+                    <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{full.format(s.count)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </PSection>
+        )}
+
+        <PSection title="Calidad del dataset">
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11 }}>
+            <tbody>
+              <tr>
+                <td style={{ ...printCell, width: '33%' }}><b>Registros:</b> {full.format(data.totalRows)}</td>
+                <td style={{ ...printCell, width: '33%' }}><b>Duplicados:</b> {full.format(dataset.duplicateRows)}</td>
+                <td style={{ ...printCell, width: '34%' }}><b>Celdas vacías:</b> {full.format(data.totalMissing)}</td>
+              </tr>
+            </tbody>
+          </table>
+          {data.missingByColumn.length > 0 && (
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontSize: 10, color: '#57606a' }}>Valores faltantes por columna:</div>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 10, marginTop: 4 }}>
+                <tbody>
+                  {data.missingByColumn.slice(0, 10).map((c) => {
+                    const pct = data.totalRows > 0 ? (c.missing / data.totalRows) * 100 : 0
+                    return (
+                      <tr key={c.name}>
+                        <td style={{ ...printCell }}>{c.name}</td>
+                        <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{full.format(c.missing)}</td>
+                        <td style={{ ...printCell, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{pct.toFixed(1)}%</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </PSection>
+
+        <div style={{ marginTop: 26, borderTop: '1px solid #d0d7de', paddingTop: 10, fontSize: 9, color: '#57606a', display: 'flex', justifyContent: 'space-between' }}>
+          <span>BigData — Informe generado automáticamente a partir del dataset cargado.</span>
+          <span>Confidencial · Uso interno</span>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
 export default function Reportes() {
   const { dataset } = useData()
+  const { user } = useAuth()
   const [enrich, setEnrich] = useState<EnrichResult | null>(null)
   const [enrichLoading, setEnrichLoading] = useState(false)
 
   const data = useMemo(() => extractReportData(dataset), [dataset])
 
   useEffect(() => {
-    if (!dataset) { setEnrich(null); return }
-    setEnrich(null)
-    void apiEnrichDataset(dataset.id).then(setEnrich).catch(() => setEnrich(null))
+    if (!dataset) return
+    let cancelled = false
+    void apiEnrichDataset(dataset.id)
+      .then((res) => { if (!cancelled) setEnrich(res) })
+      .catch(() => { if (!cancelled) setEnrich(null) })
+    return () => { cancelled = true }
   }, [dataset])
 
   const handleExport = () => {
@@ -464,6 +701,8 @@ export default function Reportes() {
           </Tabs>
         </>
       )}
+
+      {dataset && data && <PrintReport dataset={dataset} data={data} user={user} />}
     </div>
   )
 }
